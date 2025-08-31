@@ -1,17 +1,8 @@
-<!-- Flash Message -->
-<div class="container mt-3">
-  <?php if ($this->session->flashdata('success')): ?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <?= $this->session->flashdata('success'); ?>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
-    </div>
-  <?php elseif ($this->session->flashdata('error')): ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <?= $this->session->flashdata('error'); ?>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
-    </div>
-  <?php endif; ?>
-</div>
+<?php if($this->session->flashdata('success')): ?>
+  <script>
+    alert("<?= $this->session->flashdata('success'); ?>");
+  </script>
+<?php endif; ?>
 
 <!-- Konten -->
 <main class="container my-2">
@@ -93,6 +84,9 @@
       <div class="modal fade" id="statusModal<?= $row->id_laporan ?>" tabindex="-1" aria-labelledby="statusModalLabel<?= $row->id_laporan ?>" aria-hidden="true">
         <div class="modal-dialog">
           <form method="post" action="<?= base_url('laporan/update_status_lanjutan/' . $row->id_laporan) ?>">
+          <input type="hidden" 
+            name="<?= $this->security->get_csrf_token_name(); ?>" 
+            value="<?= $this->security->get_csrf_hash(); ?>" />
             <div class="modal-content">
               <div class="modal-header bg-info text-white">
                 <h5 class="modal-title" id="statusModalLabel<?= $row->id_laporan ?>">Update Status Laporan</h5>
@@ -136,3 +130,4 @@
     transform: scale(1.01);
   }
 </style>
+

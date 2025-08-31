@@ -91,7 +91,7 @@ class Laporan extends CI_Controller
 
         $config['base_url'] = site_url('laporan/index');
         $config['total_rows'] = $this->Laporan_model->count_filtered($q);
-        $config['per_page'] = 10;
+        $config['per_page'] = 3;
         $config['page_query_string'] = TRUE;
         $config['query_string_segment'] = 'start';
 

@@ -5,6 +5,9 @@
 
       <!-- Form Filter -->
       <form method="post" action="<?= base_url('laporan/cetak_filter') ?>" class="row g-3 mb-4">
+        <input type="hidden" 
+         name="<?= $this->security->get_csrf_token_name(); ?>" 
+         value="<?= $this->security->get_csrf_hash(); ?>" />
         <div class="col-md-5">
           <label for="tanggal_awal" class="form-label">Dari Tanggal</label>
           <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control"

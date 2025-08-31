@@ -46,7 +46,7 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .hero-img {
-    height: 80vh;
+    height: 85vh;
   }
 
   .custom-caption {
