@@ -4,6 +4,21 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
+<!-- 🔧 Validasi client-side untuk captcha -->
+<script>
+document.getElementById('form-absensi').addEventListener('submit', function(e) {
+    var response = grecaptcha.getResponse();
+    var captchaAlert = document.getElementById('captcha-alert');
+    if (response.length === 0) {
+        e.preventDefault(); // stop submit
+        captchaAlert.classList.remove('d-none'); // tampilkan alert
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // auto scroll ke atas
+    } else {
+        captchaAlert.classList.add('d-none'); // sembunyikan kalau sudah centang
+    }
+});
+</script>
+
 <?php if ($this->session->flashdata('success')): ?>
 <script>
   const suksesModal = new bootstrap.Modal(document.getElementById('suksesModal'));

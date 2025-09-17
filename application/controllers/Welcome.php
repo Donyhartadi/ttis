@@ -149,7 +149,7 @@ public function absen($id) {
         ];
         $this->Absensi_model->insert($data);
 
-        $this->session->set_flashdata('success', 'Absensi berhasil dicatat.');
+        $this->session->set_flashdata('successAbsen', 'Absensi berhasil dicatat.');
         redirect('welcome/detail_kegiatan/'.$id);
     }
 
