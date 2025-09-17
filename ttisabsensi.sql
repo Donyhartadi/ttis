@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 31 Agu 2025 pada 12.11
+-- Waktu pembuatan: 17 Sep 2025 pada 06.03
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -20,6 +20,51 @@ SET time_zone = "+00:00";
 --
 -- Database: `ttis`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `absensi`
+--
+
+CREATE TABLE `absensi` (
+  `id` int(11) NOT NULL,
+  `kegiatan_id` int(11) NOT NULL,
+  `nama_peserta` varchar(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `saran_masukan` text DEFAULT NULL,
+  `waktu_absen` datetime DEFAULT current_timestamp(),
+  `kepuasan` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `absensi`
+--
+
+INSERT INTO `absensi` (`id`, `kegiatan_id`, `nama_peserta`, `email`, `saran_masukan`, `waktu_absen`, `kepuasan`) VALUES
+(1, 1, 'DONY HARTADI', 'DONYHARTADI70@GMAIL.COM', 'MANTAP DAAN SAYA SANGAT SUKA', '2025-09-16 15:13:29', NULL),
+(2, 1, 'DONY HARTADI', 'DONYHARTADI70@GMAIL.COM', 'MANTAP DAAN SAYA SANGAT SUKA', '2025-09-16 15:13:48', NULL),
+(3, 1, 'DONY HARTADI', 'donyhartadi70@gmail.com', 'faecrrtr gregrg', '2025-09-16 15:13:58', NULL),
+(4, 1, 'DONY HARTADI', 'donyhartadi70@gmail.com', 'faecrrtr gregrg', '2025-09-16 15:15:00', NULL),
+(5, 1, 'DONY HARTADI', 'donyhartadi70@gmail.com', 'sv', '2025-09-16 15:15:18', NULL),
+(6, 1, 'DONY HARTADI', 'donyhartadi70@gmail.com', 'sv', '2025-09-16 15:16:10', NULL),
+(7, 1, 'DONY HARTADI', 'donyhartadi70@gmail.com', 'sv', '2025-09-16 15:16:45', NULL),
+(8, 1, 'DONY HARTADI', 'donyhartadi70@gmail.com', 'efweafef', '2025-09-16 15:17:09', NULL),
+(9, 1, 'DONY HARTADI', 'donyhartadi70@gmail.com', 'cccc', '2025-09-16 15:18:36', NULL),
+(10, 2, 'DONY HARTADI', 'donyhartadi70@gmail.com', 'vyseryervyers er tert', '2025-09-16 15:19:42', NULL),
+(11, 2, 'DONY HARTADI', 'donyhartadi70@gmail.com', 'dssd', '2025-09-16 15:37:02', NULL),
+(12, 1, 'RIAN', 'ggg@gmail.com', 'Sjsjzj', '2025-09-17 08:34:12', 'Ya'),
+(13, 1, 'RIAN', 'ggg@gmail.com', 'Sssj', '2025-09-17 08:36:49', 'Ya'),
+(14, 1, 'RIAN', 'ggg@gmail.com', 'Sssj', '2025-09-17 08:40:10', 'Ya'),
+(15, 1, 'DONY HARTADI', 'admin@gmail.com', 'dcdscsdc', '2025-09-17 10:31:04', 'Ya'),
+(16, 1, 'DONY HARTADI', 'donyhartadi7@gmail.com', 'wf', '2025-09-17 10:32:34', 'Ya'),
+(17, 1, 'DONY HARTADI', 'donyhartadi7@gmail.com', 'wf', '2025-09-17 10:36:28', 'Ya'),
+(18, 1, 'edwed', 'edwe@fdfd', 'd', '2025-09-17 10:37:00', 'Tidak'),
+(19, 2, 'Ghyhh', 'ghhh@sksk.com', 'Gg', '2025-09-17 10:39:44', 'Ya'),
+(20, 2, 'RIAN', 'ggg@gmail.com', 'Jssjsj', '2025-09-17 10:48:12', 'Ya'),
+(21, 2, 'Ghyhh', 'ghhh@sksk.com', 'Gg', '2025-09-17 10:49:55', 'Tidak'),
+(22, 2, 'RIAN', 'ghhh@sksk.com', 'Tyg', '2025-09-17 10:51:01', 'Ya'),
+(23, 2, 'RIAN', 'ghhh@sksk.com', 'Ttt', '2025-09-17 10:51:27', 'Ya');
 
 -- --------------------------------------------------------
 
@@ -53,6 +98,32 @@ INSERT INTO `berita` (`id`, `judul`, `tanggal`, `kategori`, `isi`, `ringkasan`, 
 (12, 'Survey Pelayanan Publik Diskominfo SP Bidang Perski', '2025-07-28', 'Survey', 'Muara Enim, 29 Juli 2025 – Bidang Persandian dan Keamanan Informasi (Perski) Diskominfo SP Kabupaten Muara Enim kembali melaksanakan kegiatan Survey Kepuasan Masyarakat (SKM). Kali ini bukan sekadar rutinitas biasa, tapi juga ajang unjuk gaya tiap personel—dari yang rajin nginput sampai yang rajin bercanda.\r\n\r\nSepta memulai hari dengan membuka laptop sambil berkata, “Target kita hari ini: 100 responden, 0 typo, dan 1 kopi hitam.” Ia dengan serius memeriksa satu per satu jawaban warga, bahkan sampai menghitung jumlah huruf pada kolom komentar. “Ini penting, siapa tahu ada kata kunci tersembunyi,” ujarnya penuh dedikasi.\r\n\r\nDi sisi lain, Dony sudah mulai frustrasi saat mendapati ada responden yang hanya isi satu kolom, lalu submit. “Ini survei, bukan kuis tebak-tebakan. Masa cuma jawab ‘oke’?” katanya sambil menghela napas panjang, lalu ngisi ulang minuman isotoniknya.\r\n\r\nDatanglah Anita, sang pemecah suasana. Dengan donat di tangan dan semangat 80?rcanda 20% kerja, dia menyapa:\r\n\r\n“Kalau survei ini berhasil, saya mau usul: tahun depan bikin survei tentang siapa paling lucu di kantor. Tapi saya sudah tahu pemenangnya: Bu Yuliani!”\r\n\r\nBu Yuliani, yang sedang mengetik rekap indikator pelayanan sambil tahan ketawa, menimpali, “Nita, kamu itu cocoknya jadi indikator kebahagiaan karyawan, bukan pelaksana survei.”\r\n\r\nDi tengah riuhnya suasana, muncullah Alex—staf senior penuh wibawa dan teh panas. Ia tidak banyak bicara, tapi setiap kalimatnya seperti kutipan buku motivasi.\r\n\r\n“Kualitas pelayanan itu cerminan dari cara kita memandang data. Jangan cuma cari nilai tinggi, cari makna di balik responden,” ucapnya sambil memperbaiki format dokumen dan menutup 17 tab browser yang dibuka Dony tanpa sadar.\r\n\r\nAlex juga jadi penengah saat Septa dan Dony mulai berdiskusi panjang soal format grafik. “Kita bukan mau bikin infografis buat NASA. Bikin sederhana tapi kena,” katanya bijak sambil menyeruput teh.\r\n\r\nSaat sistem SINOME sempat lemot selama 10 menit, semua panik—kecuali Alex. “Tenang, ini bagian dari ujian kesabaran. Namanya juga sistem, bukan keajaiban.”\r\n\r\nDi akhir hari, tim berhasil menyelesaikan entri data tanpa korban perasaan atau konflik antar-spreadsheet. Bu Yuliani menutup kegiatan dengan kalimat penyemangat:\r\n\r\n“Terima kasih semua. Ini bukan cuma soal survei, ini bukti kalau kerja tim bisa terasa kayak keluarga—keluarga yang suka debat soal warna grafik.”\r\n\r\nAnita pun menambahkan, “Yang penting, masyarakat puas. Kita? Cukup dengan donat dan tawa.”\r\nKarena meskipun di balik layar ada Septa yang serius, Dony yang ngulik, Anita yang bercanda, Alex yang bijak, dan Bu Yuliani yang multitasking sambil tahan tawa—semua ini dilakukan demi satu tujuan: memberikan pelayanan publik yang lebih baik, lebih cepat, dan lebih ramah untuk kamu.\r\n\r\nSetiap jawaban yang kamu isi, sekecil apapun, jadi bahan refleksi dan perbaikan kami.\r\nMau pelayanan makin mantap? Mau sistem makin mudah diakses? Atau sekadar ingin bilang “semangat ya, Diskominfo!”? Semua bisa kamu sampaikan lewat survey ini. ???? Isi surveinya sekarang. Biar kamu gak cuma jadi penonton perubahan, tapi bagian dari yang bikin perubahan itu terjadi. Karena pelayanan publik yang baik… dimulai dari feedback publik yang jujur. Link bisa diakses lewat QR atau langsung di https://skmmuaraenimkab.pandhie.id/survey/7 , terimakasih ! ', 'Muara Enim, 29 Juli 2025 – Bidang Persandian dan Keamanan Informasi (Perski) Diskominfo SP Kabupaten Muara Enim kembali melaksanakan kegiatan Survey Kepuasan Masyarakat (SKM). Kali ini bukan sekadar rutinitas biasa,&#8230;', '1753671156.jpg', 'survey-pelayanan-publik-diskominfo-sp-bidang-perski', NULL, '2025-07-28 09:52:36', '2025-07-29 07:46:55', 'draft'),
 (14, 'Geger! Aksi Maling Mangga di Kawasan Bangunan PDIP Muara Enim Bikin Heboh Warga', '2025-07-29', 'Candaan', 'Muara Enim, 29 Juli 2025 – Kejadian tak terduga menghebohkan kawasan bangunan PDIP cabang Muara Enim, Sumatera Selatan. Seorang pria paruh baya yang belakangan diketahui hanya ingin “mengecek kematangan buah” nekat memanjat pohon mangga yang tumbuh persis di samping gedung partai.\r\n\r\nWarga sekitar yang menyaksikan aksi panjat-memanjat itu sempat mengira sedang terjadi simulasi latihan penyelamatan, namun dikejutkan ketika sang pria malah asyik menjatuhkan mangga satu per satu ke kantong plastik kresek hitam.\r\n\r\n\"Awalnya kami kira ini bagian dari program kerja bakti atau panen bersama. Tapi pas dilihat dari dekat, dia malah kabur bawa mangga,\" ujar Pak Septa, warga sekitar yang sempat merekam aksi tersebut dengan kamera handphone-nya.\r\n\r\nPihak PDIP setempat langsung merespons. Sekretaris cabang partai, Ibu Yuliani, menyebutkan bahwa kejadian ini harus disikapi dengan kepala dingin. “Kita memang belum punya kebijakan terkait pohon mangga di halaman. Tapi kami tetap berharap pelaku bertanggung jawab dan setidaknya meninggalkan satu dua mangga untuk staf jaga,” ujarnya sambil tertawa kecil.\r\n\r\nBelakangan diketahui bahwa pelaku dikenal warga sebagai “Mang Alex”, sosok yang memang terkenal akan hobi panjat-memanjat dan koleksi buah musiman. Ketika ditanya alasan aksinya, ia dengan santai menjawab:\r\n\r\n“Lah itu mangganya udah kuning semua, sayang kalau jatuh sendiri. Saya panenin duluan aja, biar gak mubazir.”\r\n\r\nHingga berita ini ditulis, belum ada laporan resmi ke pihak berwajib, namun warga berharap ke depannya ada papan peringatan bertuliskan: “Mangga ini bukan milik umum, meskipun tumbuh di tanah demokrasi.”', 'Muara Enim, 29 Juli 2025 – Kejadian tak terduga menghebohkan kawasan bangunan PDIP cabang Muara Enim, Sumatera Selatan. Seorang pria paruh baya yang belakangan diketahui hanya ingin “mengecek kematangan buah”&#8230;', '1753748726.jpeg', 'geger-aksi-maling-mangga-di-kawasan-bangunan-pdip-muara-enim-bikin-heboh-warga', NULL, '2025-07-29 07:22:51', '2025-07-29 07:25:26', 'draft'),
 (16, 'Survey Pelayanan Publik Diskominfo SP Bidang Perskie', '2025-08-25', 'Literasi Digital', 'ewrwr', 'ewrwr', '1756093844.jpg', 'survey-pelayanan-publik-diskominfo-sp-bidang-perskie', NULL, '2025-08-25 10:50:44', '2025-08-25 10:50:44', 'draft');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `kegiatan`
+--
+
+CREATE TABLE `kegiatan` (
+  `id` int(11) NOT NULL,
+  `nama_kegiatan` varchar(255) NOT NULL,
+  `waktu_kegiatan` datetime DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
+  `gambar` varchar(255) DEFAULT NULL,
+  `lampiran` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_absensi_open` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `kegiatan`
+--
+
+INSERT INTO `kegiatan` (`id`, `nama_kegiatan`, `waktu_kegiatan`, `keterangan`, `gambar`, `lampiran`, `created_at`, `is_absensi_open`) VALUES
+(1, 'WEBINAR KEGIATAN KEAMANAN INFORMASI PERANGKAT DAERAH SEKABUPATEN MUARA ENIM', '2025-12-09 07:00:00', 'Selamat Siang Bapak/Ibu Perwakilan Diskominfo,\r\nMohon izin meneruskan radiogram undangan rapat yang akan dilaksanakan secara daring melalui Zoom Meeting pada :  \r\n  Senin, 15 September 2025 \r\n  Pukul 13.00 WIB s.d selesai\r\n  Zoom Meeting\r\n      Meeting ID: 958 5590 0501\r\n      Passcode: Bangda25 \r\nEvaluasi Pembentukan Tim Tanggap Insiden Siber (TTIS).\r\nSehubungan dengan hal tersebut, mohon bantuan Bapak/Ibu untuk meneruskan undangan ini kepada Diskominfo Kabupaten/Kota di wilayah provinsi masing-masing, serta memastikan kehadiran perwakilannya pada rapat dimaksud.\r\nAtas perhatian dan kerjasamanya, disampaikan terima kasih.\r\nSelamat Siang Bapak/Ibu Perwakilan Diskominfo,\r\nMohon izin meneruskan radiogram undangan rapat yang akan dilaksanakan secara daring melalui Zoom Meeting pada :  \r\n  Senin, 15 September 2025 \r\n  Pukul 13.00 WIB s.d selesai\r\n  Zoom Meeting\r\n      Meeting ID: 958 5590 0501\r\n      Passcode: Bangda25 \r\nEvaluasi Pembentukan Tim Tanggap Insiden Siber (TTIS).\r\nSehubungan dengan hal tersebut, mohon bantuan Bapak/Ibu untuk meneruskan undangan ini kepada Diskominfo Kabupaten/Kota di wilayah provinsi masing-masing, serta memastikan kehadiran perwakilannya pada rapat dimaksud.\r\nAtas perhatian dan kerjasamanya, disampaikan terima kasih.\r\nSelamat Siang Bapak/Ibu Perwakilan Diskominfo,\r\nMohon izin meneruskan radiogram undangan rapat yang akan dilaksanakan secara daring melalui Zoom Meeting pada :  \r\n  Senin, 15 September 2025 \r\n  Pukul 13.00 WIB s.d selesai\r\n  Zoom Meeting\r\n      Meeting ID: 958 5590 0501\r\n      Passcode: Bangda25 \r\nEvaluasi Pembentukan Tim Tanggap Insiden Siber (TTIS).\r\nSehubungan dengan hal tersebut, mohon bantuan Bapak/Ibu untuk meneruskan undangan ini kepada Diskominfo Kabupaten/Kota di wilayah provinsi masing-masing, serta memastikan kehadiran perwakilannya pada rapat dimaksud.\r\nAtas perhatian dan kerjasamanya, disampaikan terima kasih.', '1757992335.png', '1757994899.docx', '2025-09-16 03:09:53', 1),
+(2, 'Pelatihan Keamanan Siber', '2025-09-20 09:00:00', 'Pelatihan ini ditujukan untuk meningkatkan kesadaran keamanan sistem informasi di lingkungan kantor. Peserta akan dibekali materi dasar keamanan siber dan praktik langsung.', '1757995068.jpg', NULL, '2025-09-16 03:42:56', 1),
+(3, 'Lomba Inovasi Teknologi', '2025-10-05 13:30:00', 'Ajang tahunan untuk menampilkan inovasi teknologi dari mahasiswa dan masyarakat umum. Pemenang akan mendapatkan penghargaan dan kesempatan inkubasi bisnis.', '1757995086.png', NULL, '2025-09-16 03:42:56', 1);
 
 -- --------------------------------------------------------
 
@@ -116,9 +187,22 @@ INSERT INTO `users` (`id_user`, `username`, `password`, `role`) VALUES
 --
 
 --
+-- Indeks untuk tabel `absensi`
+--
+ALTER TABLE `absensi`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kegiatan_id` (`kegiatan_id`);
+
+--
 -- Indeks untuk tabel `berita`
 --
 ALTER TABLE `berita`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `kegiatan`
+--
+ALTER TABLE `kegiatan`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -138,10 +222,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `absensi`
+--
+ALTER TABLE `absensi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
 -- AUTO_INCREMENT untuk tabel `berita`
 --
 ALTER TABLE `berita`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT untuk tabel `kegiatan`
+--
+ALTER TABLE `kegiatan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `laporan`
@@ -154,6 +250,16 @@ ALTER TABLE `laporan`
 --
 ALTER TABLE `users`
   MODIFY `id_user` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `absensi`
+--
+ALTER TABLE `absensi`
+  ADD CONSTRAINT `absensi_ibfk_1` FOREIGN KEY (`kegiatan_id`) REFERENCES `kegiatan` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

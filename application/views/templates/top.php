@@ -22,14 +22,20 @@ $segment2 = $this->uri->segment(2);
         <li class="nav-item">
           <a class="nav-link <?= $segment1 == 'laporan' && $segment2 == '' ? 'active' : '' ?>" href="<?= base_url('laporan') ?>">Laporan</a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link <?= $segment1 == 'berita' ? 'active' : '' ?>" href="<?= base_url('berita') ?>">Berita</a>
         </li>
 
-
+        <!-- ✅ Menu baru Kegiatan -->
+        <li class="nav-item">
+          <a class="nav-link <?= $segment1 == 'kegiatan' ? 'active' : '' ?>" href="<?= base_url('kegiatan') ?>">Kegiatan</a>
+        </li>
 
         <li class="nav-item">
-          <a class="nav-link <?= $segment1 == 'laporan' && $segment2 == 'cetak' ? 'active' : '' ?>" href="<?= base_url('laporan/cetak') ?>"><i class="bi bi-printer-fill"></i> Cetak Laporan</a>
+          <a class="nav-link <?= $segment1 == 'laporan' && $segment2 == 'cetak' ? 'active' : '' ?>" href="<?= base_url('laporan/cetak') ?>">
+            <i class="bi bi-printer-fill"></i> Cetak Laporan
+          </a>
         </li>
 
         <!-- Dropdown -->

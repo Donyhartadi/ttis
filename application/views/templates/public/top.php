@@ -21,6 +21,9 @@
         <li class="nav-item">
           <a class="nav-link <?= $this->uri->segment(2) == 'berita' ? 'active' : '' ?>" href="<?= base_url('welcome/berita'); ?>">Berita</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link <?= $this->uri->segment(2) == 'kegiatan' ? 'active' : '' ?>" href="<?= base_url('welcome/kegiatan'); ?>">Kegiatan</a>
+        </li>
         <!-- Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="laporDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -200,6 +203,23 @@
       </div>
       <div class="modal-footer justify-content-center">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal">Oke</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ✅ Modal: Sukses Kirim -->
+<div class="modal fade" id="suksesAbsen" tabindex="-1" aria-labelledby="suksesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title w-100" id="suksesAbsenLabel">Absen Berhasil!</h5>
+        <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        Anda telah mengisi absen<br>Terimakasih telah hadir!<br>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Oke</button>
       </div>
     </div>
   </div>

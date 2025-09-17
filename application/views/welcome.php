@@ -34,3 +34,10 @@
     <span class="visually-hidden">Berikutnya</span>
   </button>
 </div>
+<footer class="py-2 bg-primary mt-auto">
+  <div class="container">
+    <p class="m-0 text-center text-white">
+      &copy; <?= date('Y') ?> TIM TANGGAP INSIDEN SIBER KABUPATEN MUARA ENIM
+    </p>
+  </div>
+</footer>

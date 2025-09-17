@@ -1,11 +1,4 @@
 <!-- ✅ Footer -->
-<footer class="py-2 bg-primary mt-auto">
-  <div class="container">
-    <p class="m-0 text-center text-white">
-      &copy; <?= date('Y') ?> TIM TANGGAP INSIDEN SIBER KABUPATEN MUARA ENIM
-    </p>
-  </div>
-</footer>
 
 <!-- ✅ Script -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -14,6 +7,13 @@
 <?php if ($this->session->flashdata('success')): ?>
 <script>
   const suksesModal = new bootstrap.Modal(document.getElementById('suksesModal'));
+  suksesModal.show();
+</script>
+<?php endif; ?>
+
+<?php if ($this->session->flashdata('successAbsen')): ?>
+<script>
+  const suksesModal = new bootstrap.Modal(document.getElementById('suksesAbsen'));
   suksesModal.show();
 </script>
 <?php endif; ?>
