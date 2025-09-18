@@ -50,7 +50,10 @@
         <div class="modal-header bg-primary text-white">
           <h5 class="modal-title" id="cekResiModalLabel"><i class="bi bi-search me-2"></i>Cek Status Laporan Anda</h5>
           <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+          <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" 
+         value="<?= $this->security->get_csrf_hash(); ?>">
         </div>
+        
         <div class="modal-body">
           <input type="text" name="kode_resi" class="form-control form-control-lg mb-3" placeholder="Masukkan Kode Resi Anda..." required>
           <div id="hasilResi"></div>
