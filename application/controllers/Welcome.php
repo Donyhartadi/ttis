@@ -20,7 +20,8 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('templates/public/header');
+		$data['title'] = "TTIS";
+		$this->load->view('templates/public/header', $data);
 		$this->load->view('templates/public/top');
 		$this->load->view('welcome');
 		$this->load->view('templates/public/footer');
@@ -29,7 +30,8 @@ class Welcome extends CI_Controller {
 
 	public function lapor()
 	{
-		$this->load->view('templates/public/header');
+		$data['title'] = "Lapor";
+		$this->load->view('templates/public/header', $data);
 		$this->load->view('templates/public/top');
 		$this->load->view('lapor');
 		$this->load->view('templates/public/footer');
@@ -43,7 +45,8 @@ class Welcome extends CI_Controller {
 		$this->load->helper('text');
 		$data['berita'] = $this->Berita_model->get_all(); // Ambil semua berita
 	
-		$this->load->view('templates/public/header');
+		$data['title'] = "Berita";
+		$this->load->view('templates/public/header', $data);
 		$this->load->view('templates/public/top');
 		$this->load->view('berita', $data); // arahkan ke view berita
 		$this->load->view('templates/public/footer');
@@ -114,51 +117,76 @@ public function detail_kegiatan($id) {
 // Absen
 public function absen($id) {
     $this->load->model(['Kegiatan_model', 'Absensi_model']);
+    $this->load->library('form_validation');
+
     $kegiatan = $this->Kegiatan_model->get($id);
     if (!$kegiatan) show_404();
 
-    // 🚫 Cek apakah absensi dibuka atau ditutup
+    // 🚫 Cek apakah absensi dibuka
     if (empty($kegiatan->is_absensi_open) || !$kegiatan->is_absensi_open) {
         $this->session->set_flashdata('error', 'Absensi untuk kegiatan ini sudah ditutup.');
-        redirect('welcome/detail_kegiatan/'.$id);
+        redirect('welcome/detail/'.$id);
         return;
     }
 
+    // Rules validasi
+    $this->form_validation->set_rules('nama_peserta', 'Nama Lengkap', 'required');
+    $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+    $this->form_validation->set_rules('asal_opd', 'Asal Unit Kerja', 'required');
+    $this->form_validation->set_rules('kepuasan', 'Kepuasan', 'required');
+
     if ($this->input->post()) {
-        // ✅ Verifikasi reCAPTCHA
-        $captchaResponse = $this->input->post('g-recaptcha-response');
-        $secretKey = '6LcCUoMrAAAAAM1sdeEF6NHAWXHONPAALwO6yi2z'; // ganti dengan SECRET KEY dari Google
-        $verifyResponse = file_get_contents(
-            "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$captchaResponse}"
-        );
-        $responseData = json_decode($verifyResponse);
+        if ($this->form_validation->run() === TRUE) {
 
-        if (!$responseData->success) {
-            $this->session->set_flashdata('error', 'Verifikasi captcha gagal. Silakan coba lagi.');
-            redirect('welcome/detail_kegiatan/'.$id);
-            return;
+            // 🔎 Ambil respon captcha
+            $captchaResponse = $this->input->post('g-recaptcha-response');
+
+            // 🚨 Kalau user belum centang captcha
+            if (empty($captchaResponse)) {
+                $data['captcha_error'] = '⚠️ Silakan centang captcha terlebih dahulu.';
+            } else {
+                // ✅ Verifikasi ke Google
+                $secretKey = '6LcCUoMrAAAAAM1sdeEF6NHAWXHONPAALwO6yi2z';
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+                    'secret'   => $secretKey,
+                    'response' => $captchaResponse,
+                    'remoteip' => $this->input->ip_address(),
+                ]));
+                $verifyResponse = curl_exec($ch);
+                curl_close($ch);
+
+                $responseData = json_decode($verifyResponse);
+
+                if (!$responseData || empty($responseData->success)) {
+                    $data['captcha_error'] = '⚠️ Verifikasi captcha gagal. Silakan coba lagi.';
+                } else {
+                    // ✅ Simpan absensi
+                    $dataInsert = [
+                        'kegiatan_id'   => $id,
+                        'nama_peserta'  => $this->input->post('nama_peserta', true),
+                        'email'         => $this->input->post('email', true),
+                        'asal_opd'      => $this->input->post('asal_opd', true),
+                        'saran_masukan' => $this->input->post('saran_masukan', true),
+                        'kepuasan'      => $this->input->post('kepuasan', true),
+                    ];
+                    $this->Absensi_model->insert($dataInsert);
+
+                    $this->session->set_flashdata('successAbsen', 'Absensi berhasil dicatat ✅');
+                    redirect('welcome/detail_kegiatan/'.$id);
+                    return;
+                }
+            }
         }
-
-        // ✅ Simpan absensi kalau captcha valid
-        $data = [
-            'kegiatan_id'   => $id,
-            'nama_peserta'  => $this->input->post('nama_peserta', true),
-            'email'         => $this->input->post('email', true),
-            'saran_masukan' => $this->input->post('saran_masukan', true),
-            'kepuasan'      => $this->input->post('kepuasan', true),
-        ];
-        $this->Absensi_model->insert($data);
-
-        $this->session->set_flashdata('successAbsen', 'Absensi berhasil dicatat.');
-        redirect('welcome/detail_kegiatan/'.$id);
     }
 
     $data['kegiatan'] = $kegiatan;
     $this->load->view('templates/public/header');
     $this->load->view('templates/public/top');
     $this->load->view('kegiatan/absen_form', $data);
-    $this->load->view('templates/public/footer');
 }
-
-
 }

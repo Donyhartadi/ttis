@@ -6,19 +6,20 @@
 
 <!-- 🔧 Validasi client-side untuk captcha -->
 <script>
-document.getElementById('form-absensi').addEventListener('submit', function(e) {
-    var response = grecaptcha.getResponse();
-    var captchaAlert = document.getElementById('captcha-alert');
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById("form-absensi");
+  if (!form) return;
+
+  form.addEventListener("submit", function(e) {
+    const response = grecaptcha.getResponse(); // cek token recaptcha
     if (response.length === 0) {
-        e.preventDefault(); // stop submit
-        captchaAlert.classList.remove('d-none'); // tampilkan alert
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // auto scroll ke atas
-    } else {
-        captchaAlert.classList.add('d-none'); // sembunyikan kalau sudah centang
+      e.preventDefault(); // stop submit
+      alert("⚠️ Silakan centang reCAPTCHA dulu sebelum mengirim form.");
+      return false;
     }
+  });
 });
 </script>
-
 <?php if ($this->session->flashdata('success')): ?>
 <script>
   const suksesModal = new bootstrap.Modal(document.getElementById('suksesModal'));

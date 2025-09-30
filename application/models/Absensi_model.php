@@ -19,4 +19,6 @@ class Absensi_model extends CI_Model {
     public function delete($id) {
         return $this->db->delete($this->table, ['id' => $id]);
     }
+
+    
 }

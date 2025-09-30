@@ -7,7 +7,11 @@
 
   <!-- Meta -->
   <div class="text-sm text-gray-500 mb-4">
-    [BERITA] · <?= date('d M Y', strtotime($berita->tanggal)) ?> · <?= $berita->kategori ?>
+    [BERITA] · <?= date('d M Y', strtotime($berita->tanggal)) ?> 
+    <?php if (!empty($berita->waktu_kegiatan)) : ?>
+      · ⏰ <?= date('H:i', strtotime($berita->waktu_kegiatan)) ?> WIB
+    <?php endif; ?>
+    · <?= $berita->kategori ?>
   </div>
   <hr class="mb-6">
 
@@ -21,7 +25,8 @@
         style="max-height: 480px;"
       />
     </div>
-  <?php endif; ?><hr>
+  <?php endif; ?>
+  <hr>
 
   <!-- Penulis -->
   <div class="text-sm text-gray-700 font-medium mb-4">
@@ -30,7 +35,7 @@
 
   <!-- Isi Berita -->
   <div class="text-gray-800 text-base md:text-lg leading-relaxed" style="text-align: justify;">
-  <?= nl2br($berita->isi) ?>
-</div>
+    <?= nl2br($berita->isi) ?>
+  </div>
 
 </div>

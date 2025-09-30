@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <title>Lapor Insiden Siber</title>
+  <title><?= isset($title) ? $title : ucfirst($this->router->fetch_method()); ?> | Tim Tanggap Insiden Siber Kab. Muara Enim</title>
 
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
