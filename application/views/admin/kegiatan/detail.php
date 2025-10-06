@@ -15,33 +15,22 @@
     </div>
   <?php endif; ?>
 
-
+  <!-- ✅ Card Utama -->
   <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-    <div class="row g-0">
+    <div class="row g-0 flex-md-row flex-column-reverse">
 
-      <!-- Kolom Gambar -->
-      <?php if (!empty($kegiatan->gambar)): ?>
-        <div class="col-md-5">
-          <img
-            src="<?= base_url('assets/uploads/kegiatan/' . $kegiatan->gambar) ?>"
-            alt="<?= html_escape($kegiatan->nama_kegiatan) ?>"
-            class="img-fluid h-100 w-100 object-fit-cover"
-          >
-        </div>
-      <?php endif; ?>
-
-      <!-- Kolom Konten -->
+      <!-- 🧾 Kolom Konten -->
       <div class="<?= !empty($kegiatan->gambar) ? 'col-md-7' : 'col-12' ?>">
-        <div class="card-body p-4">
+        <div class="card-body p-2">
 
           <!-- Judul -->
-          <h3 class="card-title fw-bold text-primary mb-3">
+          <h3 class="fw-bold text-primary mb-3">
             <?= html_escape($kegiatan->nama_kegiatan) ?>
           </h3>
 
-          <!-- Tanggal -->
+          <!-- Waktu Kegiatan -->
           <?php if (!empty($kegiatan->waktu_kegiatan)): ?>
-            <p class="mb-3">
+            <p class="mb-4">
               <span class="badge bg-light text-dark border px-3 py-2 rounded-pill shadow-sm">
                 <i class="bi bi-calendar-event me-1"></i>
                 <?= date('d M Y H:i', strtotime($kegiatan->waktu_kegiatan)) ?>
@@ -50,84 +39,84 @@
           <?php endif; ?>
 
           <!-- Deskripsi -->
-          <p class="card-text lh-lg text-secondary">
+          <p class="text-secondary lh-lg mb-4">
             <?= nl2br(html_escape($kegiatan->keterangan)) ?>
           </p>
 
-          <!-- Lampiran & Sertifikat -->
-          <?php if (!empty($kegiatan->lampiran) || !empty($kegiatan->sertifikat_link)): ?>
-            <div class="mt-4">
-              <?php if (!empty($kegiatan->lampiran)): ?>
-                <?php 
-                  $lampiran_list = json_decode($kegiatan->lampiran, true); 
-                  if (!is_array($lampiran_list)) $lampiran_list = [$kegiatan->lampiran];
-                ?>
-                <p class="fw-bold mb-2"><i class="bi bi-paperclip"></i> Lampiran:</p>
-                <ul class="list-unstyled">
-                  <?php foreach ($lampiran_list as $idx => $lampiran): ?>
-                    <li class="mb-2">
-                      <a href="<?= base_url('assets/uploads/lampiran/' . $lampiran) ?>"
-                        class="btn btn-outline-primary btn-sm px-3 py-2 rounded-pill shadow-sm"
-                        target="_blank" download>
-                        ⬇ Download Lampiran <?= count($lampiran_list) > 1 ? ($idx+1) : '' ?>
-                      </a>
-                    </li>
-                  <?php endforeach; ?>
-                </ul>
-              <?php endif; ?>
+          <!-- 📎 Lampiran & Sertifikat -->
+          <?php 
+            $lampiran_list = [];
+            if (!empty($kegiatan->lampiran)) {
+              $decoded = json_decode($kegiatan->lampiran, true);
+              $lampiran_list = is_array($decoded) ? $decoded : [$kegiatan->lampiran];
+            }
+          ?>
+          <?php if (!empty($lampiran_list) || !empty($kegiatan->sertifikat_link)): ?>
+            <div class="mb-4">
+              <p class="fw-bold mb-2 text-dark">
+                <i class="bi bi-paperclip me-1"></i> Lampiran & Materi:
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <!-- Tombol Lampiran -->
+                <?php foreach ($lampiran_list as $idx => $lampiran): ?>
+                  <a href="<?= base_url('assets/uploads/lampiran/' . $lampiran) ?>"
+                     class="btn btn-outline-primary btn-sm rounded-pill shadow-sm px-3 py-2"
+                     target="_blank" download>
+                    ⬇ Background Zoom <?= count($lampiran_list) > 1 ? ($idx + 1) : '' ?>
+                  </a>
+                <?php endforeach; ?>
 
-              <?php if (!empty($kegiatan->sertifikat_link)): ?>
-                <p class="fw-bold mb-2 mt-3"><i class="bi bi-award"></i> Sertifikat Kegiatan:</p>
-                <a href="<?= html_escape($kegiatan->sertifikat_link) ?>"
-                  class="btn btn-outline-success btn-sm px-3 py-2 rounded-pill shadow-sm"
-                  target="_blank" rel="noopener noreferrer">
-                  🏆 Lihat Sertifikat
-                </a>
-              <?php endif; ?>
+                <!-- Tombol Materi & Sertifikat -->
+                <?php if (!empty($kegiatan->sertifikat_link)): ?>
+                  <a href="<?= html_escape($kegiatan->sertifikat_link) ?>"
+                     class="btn btn-outline-success btn-sm rounded-pill shadow-sm px-3 py-2"
+                     target="_blank" rel="noopener noreferrer">
+                    🎖 Materi & Sertifikat
+                  </a>
+                <?php endif; ?>
+              </div>
             </div>
           <?php endif; ?>
 
-
-
-          <!-- Tombol Aksi -->
-          <div class="mt-4 d-flex flex-wrap gap-2">
+          <!-- ⚙ Tombol Aksi -->
+          <div class="d-flex flex-wrap gap-2 mt-4 align-items-center">
             
-            <!-- Tombol kembali -->
-            <a href="<?= base_url('kegiatan') ?>" class="btn btn-secondary px-4 py-2 rounded-pill">
+            <!-- Tombol Kembali -->
+            <a href="<?= base_url('kegiatan') ?>"
+               class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold shadow-sm">
               ⬅ Kembali
             </a>
 
-            <!-- Dropdown menu -->
+            <!-- Dropdown Aksi -->
             <div class="dropdown">
-              <button class="btn btn-primary dropdown-toggle px-4 py-2 rounded-pill shadow-sm" 
-                      type="button" 
-                      id="aksiDropdown" 
-                      data-bs-toggle="dropdown" 
-                      aria-expanded="false">
-                ⚙ Aksi
+              <button class="btn btn-primary dropdown-toggle rounded-pill px-4 py-2 fw-semibold shadow-sm" 
+                      type="button" id="aksiDropdown" 
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                ⚙ Kelola Kegiatan
               </button>
-              <ul class="dropdown-menu shadow-sm border-0 rounded-3" aria-labelledby="aksiDropdown">
+
+              <ul class="dropdown-menu shadow border-0 rounded-4 mt-1" aria-labelledby="aksiDropdown">
                 <li>
-                  <a class="dropdown-item" href="<?= base_url('kegiatan/edit/'.$kegiatan->id) ?>">
-                    ✏ Edit
+                  <a class="dropdown-item" href="<?= base_url('kegiatan/edit/' . $kegiatan->id) ?>">
+                    ✏ Edit Kegiatan
                   </a>
                 </li>
                 <li>
                   <a class="dropdown-item text-danger" 
-                     href="<?= base_url('kegiatan/hapus/'.$kegiatan->id) ?>" 
+                     href="<?= base_url('kegiatan/hapus/' . $kegiatan->id) ?>"
                      onclick="return confirm('Yakin ingin menghapus kegiatan ini?')">
-                    🗑 Hapus
+                    🗑 Hapus Kegiatan
                   </a>
                 </li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
-                  <a class="dropdown-item" href="<?= base_url('kegiatan/absensi/'.$kegiatan->id) ?>">
-                    👥 Lihat Absensi
+                  <a class="dropdown-item" href="<?= base_url('kegiatan/absensi/' . $kegiatan->id) ?>">
+                    👥 Lihat Daftar Absensi
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item <?= $kegiatan->is_absensi_open ? 'text-danger' : 'text-success' ?>" 
-                     href="<?= base_url('kegiatan/toggle_absensi/'.$kegiatan->id) ?>">
+                  <a class="dropdown-item <?= $kegiatan->is_absensi_open ? 'text-danger' : 'text-success' ?>"
+                     href="<?= base_url('kegiatan/toggle_absensi/' . $kegiatan->id) ?>">
                     <?= $kegiatan->is_absensi_open ? '🚫 Tutup Absensi' : '✅ Buka Absensi' ?>
                   </a>
                 </li>
@@ -138,6 +127,16 @@
 
         </div>
       </div>
+
+      <!-- 🖼 Kolom Gambar -->
+      <?php if (!empty($kegiatan->gambar)): ?>
+        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center">
+          <img src="<?= base_url('assets/uploads/kegiatan/' . $kegiatan->gambar) ?>"
+               alt="<?= html_escape($kegiatan->nama_kegiatan) ?>"
+               class="img-fluid rounded-0 shadow-sm"
+               style="object-fit:contain; max-height:500px; width:100%;">
+        </div>
+      <?php endif; ?>
 
     </div>
   </div>
