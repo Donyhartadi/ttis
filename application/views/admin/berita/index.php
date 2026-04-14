@@ -1,44 +1,55 @@
-<!-- Tambahkan style Tailwind jika belum -->
-
-
-<div class="max-w-6xl mx-auto mt-10 px-4">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Manajemen Berita</h1>
-    <a href="<?= site_url('berita/tambah') ?>" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm shadow">+ Tambah Berita</a>
+﻿<main class="container-fluid px-4 py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <div style="font-family:var(--font-mono);color:var(--cyber-cyan);font-size:0.75rem;letter-spacing:2px;">// MANAJEMEN KONTEN</div>
+      <h2 class="mb-0" style="font-family:var(--font-display);color:var(--cyber-text);">Manajemen Berita</h2>
+    </div>
+    <a href="<?= site_url('berita/tambah') ?>" class="btn btn-cyber">
+      <i class="bi bi-plus-lg me-1"></i>Tambah Berita
+    </a>
   </div>
 
   <?php if ($this->session->flashdata('success')): ?>
-    <div class="bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded mb-4 shadow-sm">
-      <?= $this->session->flashdata('success') ?>
-    </div>
+    <div class="alert-cyber-success mb-4"><?= $this->session->flashdata('success') ?></div>
   <?php endif; ?>
 
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="row g-4">
     <?php foreach ($berita as $b): ?>
-      <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-all overflow-hidden flex flex-col">
-        <?php if ($b->gambar): ?>
-          <img src="<?= base_url('assets/uploads/berita/' . $b->gambar) ?>" class="w-full h-48 object-cover" alt="<?= $b->judul ?>">
-
-        <?php else: ?>
-          <div class="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500 text-sm">Tidak ada gambar</div>
-        <?php endif; ?>
-        
-        <div class="p-4 flex-1 flex flex-col justify-between">
-          <div>
-            <h2 class="text-lg font-semibold mb-1 text-gray-900 line-clamp-2"><?= $b->judul ?></h2>
-            <p class="text-sm text-gray-500 mb-2"><?= date('d M Y', strtotime($b->tanggal)) ?> | <?= $b->kategori ?></p>
-            <p class="text-gray-700 mb-3 text-sm line-clamp-3"><?= word_limiter($b->ringkasan ?: $b->isi, 20) ?></p>
-          </div>
-
-          <div class="flex justify-between items-center mt-auto">
-            <a href="<?= site_url('berita/detail/' . $b->slug) ?>" class="text-blue-600 hover:underline text-sm">Baca selengkapnya →</a>
-            <div class="space-x-2 text-sm">
-              <a href="<?= site_url('berita/edit/' . $b->id) ?>" class="text-yellow-600 hover:underline">Edit</a>
-              <a href="<?= site_url('berita/hapus/' . $b->id) ?>" class="text-red-600 hover:underline" onclick="return confirm('Hapus berita ini?')">Hapus</a>
+      <div class="col-md-6 col-lg-4">
+        <div class="cyber-card h-100 d-flex flex-column">
+          <?php if ($b->gambar): ?>
+            <img src="<?= base_url('assets/uploads/berita/' . $b->gambar) ?>" class="w-100 rounded mb-3" style="height:180px;object-fit:cover;border:1px solid var(--cyber-border);" alt="<?= htmlspecialchars($b->judul) ?>">
+          <?php else: ?>
+            <div class="w-100 rounded mb-3 d-flex align-items-center justify-content-center" style="height:180px;background:var(--cyber-bg);border:1px solid var(--cyber-border);color:var(--cyber-text-dim);">
+              <i class="bi bi-image fs-2"></i>
             </div>
+          <?php endif; ?>
+          <div class="flex-grow-1">
+            <div class="mb-2">
+              <span class="badge-cyber-cyan"><?= $b->kategori ?></span>
+              <span class="ms-2" style="color:var(--cyber-text-dim);font-size:0.8rem;"><?= date('d M Y', strtotime($b->tanggal)) ?></span>
+            </div>
+            <h6 class="mb-2" style="color:var(--cyber-text);font-weight:600;"><?= $b->judul ?></h6>
+            <p style="color:var(--cyber-text-dim);font-size:0.85rem;line-height:1.5;"><?= word_limiter($b->ringkasan ?: strip_tags($b->isi), 18) ?></p>
+          </div>
+          <div class="d-flex gap-2 mt-3">
+            <a href="<?= site_url('berita/edit/' . $b->id) ?>" class="btn btn-cyber btn-sm flex-fill" style="background:rgba(255,176,32,0.08);border-color:var(--cyber-amber);color:var(--cyber-amber);">
+              <i class="bi bi-pencil me-1"></i>Edit
+            </a>
+            <a href="<?= site_url('berita/hapus/' . $b->id) ?>" class="btn btn-cyber btn-sm flex-fill" style="background:rgba(255,59,92,0.08);border-color:var(--cyber-red);color:var(--cyber-red);" onclick="return confirm('Hapus berita ini?')">
+              <i class="bi bi-trash me-1"></i>Hapus
+            </a>
           </div>
         </div>
-      </article>
+      </div>
     <?php endforeach; ?>
+    <?php if (empty($berita)): ?>
+      <div class="col-12">
+        <div class="cyber-card text-center py-5">
+          <i class="bi bi-newspaper" style="font-size:3rem;color:var(--cyber-text-dim);"></i>
+          <p class="mt-3" style="color:var(--cyber-text-dim);">Belum ada berita. Klik Tambah Berita untuk memulai.</p>
+        </div>
+      </div>
+    <?php endif; ?>
   </div>
-</div>
+</main>

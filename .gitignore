@@ -1,5 +1,7 @@
 .DS_Store
+Thumbs.db
 
+# CodeIgniter cache & logs
 application/cache/*
 !application/cache/index.html
 
@@ -10,6 +12,18 @@ application/logs/*
 
 composer.lock
 tests/mocks/database/ci_test.sqlite
+
+# Upload files (jangan commit file user)
+assets/uploads/berita/*
+assets/uploads/kegiatan/*
+assets/uploads/lampiran/*
+application/uploads/*
+
+# Third-party vendor (bisa di-install ulang)
+application/third_party/PhpSpreadsheet-5.1.0/vendor/
+
+# Root vendor (composer install)
+/vendor/
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*

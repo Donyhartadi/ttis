@@ -1,33 +1,35 @@
-<!-- Tailwind CSS -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+﻿<main class="container-fluid px-4 py-4">
+  <div class="mb-4">
+    <div style="font-family:var(--font-mono);color:var(--cyber-cyan);font-size:0.75rem;letter-spacing:2px;">// TAMBAH KONTEN</div>
+    <h2 class="mb-0" style="font-family:var(--font-display);color:var(--cyber-text);">Tambah Berita</h2>
+  </div>
 
-<div class="max-w-3xl mx-auto mt-10 px-4">
-  <h2 class="text-2xl font-bold mb-6 text-gray-800">Tambah Berita</h2>
-
-  <?php if (isset($error)) : ?>
-    <div class="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded mb-4"><?= $error ?></div>
+  <?php if (isset($error)): ?>
+    <div class="alert-cyber-danger mb-4"><?= $error ?></div>
   <?php endif; ?>
 
-  <form action="<?= site_url('admin/berita/simpan') ?>" method="post" enctype="multipart/form-data" class="space-y-5 bg-white p-6 rounded-lg shadow-md">
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
-      <input type="text" name="judul" class="w-full border border-gray-300 rounded px-3 py-2 focus:ring focus:outline-none" required>
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-      <input type="text" name="kategori" class="w-full border border-gray-300 rounded px-3 py-2" required>
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Isi Berita</label>
-      <textarea name="isi" rows="6" class="w-full border border-gray-300 rounded px-3 py-2" required></textarea>
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Gambar</label>
-      <input type="file" name="gambar" class="w-full text-sm text-gray-700">
-    </div>
-
-    <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 shadow text-sm">Simpan</button>
-    <a href="<?= site_url('admin/berita') ?>" class="t_
+  <div class="cyber-card" style="max-width:760px;">
+    <form action="<?= site_url('berita/tambah') ?>" method="post" enctype="multipart/form-data">
+      <div class="mb-4">
+        <label class="cyber-label">Judul</label>
+        <input type="text" name="judul" class="cyber-input" placeholder="Judul berita" required>
+      </div>
+      <div class="mb-4">
+        <label class="cyber-label">Kategori</label>
+        <input type="text" name="kategori" class="cyber-input" placeholder="Misal: Keamanan Siber" required>
+      </div>
+      <div class="mb-4">
+        <label class="cyber-label">Isi Berita</label>
+        <textarea name="isi" rows="8" class="cyber-input" placeholder="Tulis isi lengkap berita..." required></textarea>
+      </div>
+      <div class="mb-4">
+        <label class="cyber-label">Gambar <span style="color:var(--cyber-text-dim);font-weight:400;">(opsional)</span></label>
+        <input type="file" name="gambar" class="cyber-input" accept=".jpg,.jpeg,.png,.webp">
+      </div>
+      <div class="d-flex gap-3">
+        <button type="submit" class="btn btn-cyber"><i class="bi bi-save me-1"></i>Simpan</button>
+        <a href="<?= site_url('admin/berita') ?>" class="btn btn-cyber" style="background:transparent;border-color:var(--cyber-border);color:var(--cyber-text-dim);">Batal</a>
+      </div>
+    </form>
+  </div>
+</main>

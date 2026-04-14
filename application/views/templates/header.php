@@ -1,31 +1,17 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <title><?= isset($title) ? $title : ucfirst($this->router->fetch_method()); ?> | Admin</title>
+  <title><?= isset($title) ? $title : ucfirst($this->router->fetch_method()); ?> | Admin TTIS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="<?= base_url('assets/css/cyber.css') ?>" rel="stylesheet">
   <style>
     html, body { height: 100%; }
-    body {
-      display: flex;
-      flex-direction: column;
-      background-color: #f8f9fa;
-    }
+    body { display: flex; flex-direction: column; }
     main { flex: 1; }
-    .card-title { font-weight: 600; color: #0d6efd; }
-    .card-text { font-size: 0.95rem; }
-    .card-footer { font-size: 0.8rem; }
-    .btn-sm { font-size: 0.75rem; }
-
-    .laporan-item .btn,
-.laporan-item .badge {
-  font-size: 0.8rem;
-  padding: 4px 8px;
-}
-
   </style>
 </head>
-<body>
+<body class="cyber-grid-bg">
 

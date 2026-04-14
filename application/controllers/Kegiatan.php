@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Kegiatan extends CI_Controller {
 
   public function __construct() {
@@ -258,55 +257,103 @@ public function edit($id) {
     $msg = $new_status ? 'Absensi dibuka kembali.' : 'Absensi ditutup.';
     $this->session->set_flashdata('success', $msg);
 
-    redirect('kegiatan/detail/'.$id);
-  }
+  redirect('kegiatan/detail/'.$id);
+}
 
 
   public function export_excel($kegiatan_id)
   {
-      // load model absensi
-      $this->load->model('Absensi_model');
+      // Auth check
+      if (!$this->session->userdata('logged_in') || $this->session->userdata('role') != 'A') {
+          redirect('auth/login');
+      }
+
+      $kegiatan_id = (int) $kegiatan_id;
+      $kegiatan    = $this->Kegiatan_model->get($kegiatan_id);
+      if (!$kegiatan) show_404();
+
       $dataAbsensi = $this->Absensi_model->get_by_kegiatan($kegiatan_id);
-  
-      // load library Excel
-      $this->load->library('excel'); // bisa pakai PhpSpreadsheet
-  
+
+      // Load Composer autoload explicitly (CI3 + Windows path fix)
+      require_once APPPATH . 'third_party' . DIRECTORY_SEPARATOR . 'PhpSpreadsheet-5.1.0' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
       $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
       $sheet = $spreadsheet->getActiveSheet();
-  
-      // Header kolom
-      $sheet->setCellValue('A1', 'No');
-      $sheet->setCellValue('B1', 'Nama Peserta');
-      $sheet->setCellValue('C1', 'Unit Kerja');
-      $sheet->setCellValue('D1', 'Email');
-      $sheet->setCellValue('E1', 'Saran & Masukan');
-      $sheet->setCellValue('F1', 'Waktu Absen');
-      $sheet->setCellValue('G1', 'Kepuasan');
-  
-      // Isi data
-      $rowNumber = 2;
+      $sheet->setTitle('Absensi');
+
+      // ── Judul laporan ──
+      $sheet->mergeCells('A1:G1');
+      $sheet->setCellValue('A1', 'DAFTAR ABSENSI PESERTA');
+      $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(13);
+      $sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+      $sheet->mergeCells('A2:G2');
+      $sheet->setCellValue('A2', $kegiatan->nama_kegiatan);
+      $sheet->getStyle('A2')->getFont()->setBold(true)->setSize(11);
+      $sheet->getStyle('A2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+      $sheet->mergeCells('A3:G3');
+      $sheet->setCellValue('A3', 'Tanggal: ' . date('d M Y H:i', strtotime($kegiatan->waktu_kegiatan)));
+      $sheet->getStyle('A3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+      // ── Header kolom ──
+      $headers = ['No', 'Nama Peserta', 'Unit Kerja / OPD', 'Email', 'Saran & Masukan', 'Waktu Absen', 'Kepuasan'];
+      $cols    = ['A','B','C','D','E','F','G'];
+      foreach ($headers as $i => $h) {
+          $sheet->setCellValue($cols[$i].'5', $h);
+      }
+      $headerStyle = [
+          'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+          'fill'      => ['fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                          'startColor' => ['rgb' => '1A3C5A']],
+          'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
+          'borders'   => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
+      ];
+      $sheet->getStyle('A5:G5')->applyFromArray($headerStyle);
+
+      // ── Isi data ──
+      $rowNum = 6;
       $no = 1;
       foreach ($dataAbsensi as $row) {
-          $sheet->setCellValue('A'.$rowNumber, $no++);
-          $sheet->setCellValue('B'.$rowNumber, $row->nama_peserta);
-          $sheet->setCellValue('C'.$rowNumber, $row->asal_opd);
-          $sheet->setCellValue('D'.$rowNumber, $row->email);
-          $sheet->setCellValue('E'.$rowNumber, $row->saran_masukan);
-          $sheet->setCellValue('F'.$rowNumber, $row->waktu_absen);
-          $sheet->setCellValue('G'.$rowNumber, $row->kepuasan);
-          $rowNumber++;
+          $sheet->setCellValue('A'.$rowNum, $no++);
+          $sheet->setCellValue('B'.$rowNum, $row->nama_peserta);
+          $sheet->setCellValue('C'.$rowNum, $row->asal_opd);
+          $sheet->setCellValue('D'.$rowNum, $row->email);
+          $sheet->setCellValue('E'.$rowNum, $row->saran_masukan);
+          $sheet->setCellValue('F'.$rowNum, $row->waktu_absen ? date('d-m-Y H:i', strtotime($row->waktu_absen)) : '-');
+          $sheet->setCellValue('G'.$rowNum, $row->kepuasan ?? '-');
+          $sheet->getStyle('A'.$rowNum.':G'.$rowNum)->getBorders()
+              ->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+          // zebra stripe
+          if ($no % 2 == 0) {
+              $sheet->getStyle('A'.$rowNum.':G'.$rowNum)->getFill()
+                  ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                  ->getStartColor()->setRGB('EBF4FB');
+          }
+          $rowNum++;
       }
-  
-      // Download file
-      $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-      $filename = "Daftar_Absensi_".date('Ymd_His').".xlsx";
-  
-      header('Content-Type: application/vnd.ms-excel');
-      header('Content-Disposition: attachment;filename="'.$filename.'"');
-      header('Cache-Control: max-age=0');
-  
-      $writer->save('php://output');
-  }
-  
 
+      // ── Auto-width kolom ──
+      foreach ($cols as $col) {
+          $sheet->getColumnDimension($col)->setAutoSize(true);
+      }
+      // batas lebar kolom E (saran) agar tidak terlalu lebar
+      $sheet->getColumnDimension('E')->setWidth(40);
+      $sheet->getStyle('E6:E'.$rowNum)->getAlignment()->setWrapText(true);
+
+      // ── Download ──
+      $writer   = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+      $nama_file = 'Absensi_' . preg_replace('/[^A-Za-z0-9_]/', '_', $kegiatan->nama_kegiatan) . '_' . date('Ymd') . '.xlsx';
+
+      // Bersihkan output buffer agar tidak ada karakter sebelum header
+      while (ob_get_level()) ob_end_clean();
+
+      header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      header('Content-Disposition: attachment; filename="' . $nama_file . '"');
+      header('Cache-Control: max-age=0');
+      header('Pragma: public');
+
+      $writer->save('php://output');
+      exit;
+  }
 }

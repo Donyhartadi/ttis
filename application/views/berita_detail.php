@@ -1,36 +1,52 @@
-<div class="container mx-auto px-1 max-w-3xl mt-3">
+<div class="container py-5" style="max-width:860px;">
+  <!-- Breadcrumb -->
+  <nav style="margin-bottom:2rem;">
+    <small style="font-family:var(--font-mono);color:var(--cyber-text-dim);">
+      <a href="<?= base_url() ?>" style="color:var(--cyber-cyan);text-decoration:none;">Beranda</a>
+      <span class="mx-2">/</span>
+      <a href="<?= base_url('welcome/berita') ?>" style="color:var(--cyber-cyan);text-decoration:none;">Berita</a>
+      <span class="mx-2">/</span>
+      <span style="color:var(--cyber-text);"><?= htmlspecialchars(mb_strimwidth($berita->judul, 0, 40, '...')) ?></span>
+    </small>
+  </nav>
+
+  <!-- Kategori Badge -->
+  <div style="margin-bottom:1rem;">
+    <span style="background:rgba(0,212,255,0.1);border:1px solid var(--cyber-border);color:var(--cyber-cyan);font-family:var(--font-mono);font-size:0.7rem;padding:3px 12px;letter-spacing:2px;text-transform:uppercase;">
+      <?= htmlspecialchars($berita->kategori) ?>
+    </span>
+  </div>
 
   <!-- Judul -->
-  <h1 class="text-3xl md:text-4xl font-bold text-gray-900 leading-snug mb-2">
-    <?= $berita->judul ?>
+  <h1 style="font-family:var(--font-display);font-size:clamp(1.4rem,3vw,2.2rem);color:var(--cyber-text);line-height:1.3;margin-bottom:1rem;">
+    <?= htmlspecialchars($berita->judul) ?>
   </h1>
 
   <!-- Meta -->
-  <div class="text-sm text-gray-500 mb-4">
-    [BERITA] · <?= date('d M Y', strtotime($berita->tanggal)) ?> · <?= $berita->kategori ?> . <?= ucwords($berita->penulis ?? 'Diskominfo') ?>
+  <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--cyber-text-dim);margin-bottom:2rem;display:flex;flex-wrap:wrap;gap:1.5rem;border-bottom:1px solid var(--cyber-border);padding-bottom:1rem;">
+    <span><i class="bi bi-calendar3 me-1"></i><?= date('d M Y', strtotime($berita->tanggal)) ?></span>
+    <span><i class="bi bi-person me-1"></i><?= htmlspecialchars(ucwords($berita->penulis ?? 'Tim Persandian')) ?></span>
+    <span><i class="bi bi-tag me-1"></i><?= htmlspecialchars($berita->kategori) ?></span>
   </div>
-  <hr class="mb-6">
 
   <!-- Gambar -->
-  <?php if (!empty($berita->gambar)) : ?>
-    <div class="mb-6 rounded-lg overflow-hidden">
-      <img 
-        src="<?= base_url('assets/uploads/berita/' . $berita->gambar) ?>" 
-        alt="<?= $berita->judul ?>" 
-        class="w-full max-w-full h-auto rounded-lg object-cover mx-auto"
-        style="max-height: 400px;"
-      />
+  <?php if (!empty($berita->gambar)): ?>
+    <div style="margin-bottom:2rem;border:1px solid var(--cyber-border);border-radius:4px;overflow:hidden;">
+      <img src="<?= base_url('assets/uploads/berita/' . $berita->gambar) ?>"
+           alt="<?= htmlspecialchars($berita->judul) ?>"
+           style="width:100%;max-height:420px;object-fit:cover;display:block;filter:brightness(0.9) saturate(0.95);">
     </div>
-  <?php endif; ?><hr>
-
-  <!-- Penulis -->
-  <div class="text-sm text-gray-700 font-medium mb-4">
-    Tim Persandian dan Kemanan Informasi 
-  </div>
+  <?php endif; ?>
 
   <!-- Isi Berita -->
-  <div class="text-gray-800 text-base md:text-lg leading-relaxed" style="text-align: justify;">
-  <?= nl2br($berita->isi) ?>
-</div>
+  <div style="color:var(--cyber-text);font-size:1rem;line-height:1.9;text-align:justify;">
+    <?= nl2br($berita->isi) ?>
+  </div>
 
+  <!-- Back Button -->
+  <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--cyber-border);">
+    <a href="<?= base_url('welcome/berita') ?>" class="btn btn-cyber-outline btn-cyber">
+      <i class="bi bi-arrow-left me-2"></i>Kembali ke Berita
+    </a>
+  </div>
 </div>
