@@ -13,8 +13,6 @@
     </div>
   <?php endif; ?>
 
-
-<div class="container my-4">
   <div class="card shadow-sm">
     <div class="row g-0 align-items-start">
 
@@ -79,19 +77,10 @@
             </a>
           </div>
         </div>
-      </div>
+      </div><!-- /.col konten -->
 
-      <!-- 🖼 Kolom Gambar -->
-      <?php if (!empty($kegiatan->gambar)): ?>
-        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center">
-          <img src="<?= base_url('assets/uploads/kegiatan/' . $kegiatan->gambar) ?>"
-               alt="<?= html_escape($kegiatan->nama_kegiatan) ?>"
-               class="img-fluid rounded-0 shadow-sm"
-               style="object-fit:contain; max-height:500px; width:100%;">
-        </div>
-      <?php endif; ?>
-
-    </div>
-  </div>
+    </div><!-- /.row -->
+  </div><!-- /.card -->
+</div><!-- /.container -->
 </main>
 
