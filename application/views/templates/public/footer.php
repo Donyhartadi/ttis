@@ -16,21 +16,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const form = document.getElementById("form-absensi");
-  if (form) {
-    form.addEventListener("submit", function(e) {
-      const response = grecaptcha.getResponse();
-      if (response.length === 0) {
-        e.preventDefault();
-        alert("Silakan centang reCAPTCHA dulu sebelum mengirim form.");
-        return false;
-      }
-    });
-  }
-});
-</script>
 <?php if ($this->session->flashdata('success')): ?>
 <script>
   const suksesModal = new bootstrap.Modal(document.getElementById('suksesModal'));
