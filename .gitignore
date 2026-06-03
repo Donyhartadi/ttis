@@ -1,0 +1,17 @@
+# Database config (berisi kredensial)
+application/config/database.php
+
+# CodeIgniter cache & logs
+application/logs/*
+application/cache/*
+!application/logs/index.html
+!application/cache/index.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp

@@ -1,0 +1,3 @@
+# Blokir semua akses langsung
+Order deny,allow
+Deny from all
