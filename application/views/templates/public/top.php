@@ -1,11 +1,19 @@
 <body class="d-flex flex-column min-vh-100 cyber-grid-bg">
 
+<!-- Top status bar -->
+<div style="background:rgba(0,212,255,.04);border-bottom:1px solid rgba(0,212,255,.1);padding:.25rem 0;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--cyber-text-dim);text-align:center;letter-spacing:1px;">
+  <span class="status-dot online" style="width:6px;height:6px;margin-right:.4rem;"></span>
+  TTIS KAB. MUARA ENIM — TIM TANGGAP INSIDEN SIBER — DISKOMINFO
+  <span style="margin-left:1rem;color:var(--cyber-border);">|</span>
+  <span data-clock style="margin-left:1rem;"></span>
+</div>
+
 <!-- Cyber Navbar -->
-<nav class="cyber-navbar navbar navbar-expand-lg">
+<nav class="cyber-navbar navbar navbar-expand-lg" style="top:0;">
   <div class="container px-lg-4">
     <a class="navbar-brand" href="<?= base_url(); ?>">
-      <div class="brand-icon">
-        <i class="bi bi-shield-lock-fill" style="color:var(--cyber-cyan);font-size:1.1rem;"></i>
+      <div class="brand-icon" style="background:transparent;border:none;padding:0;">
+        <img src="<?= base_url('assets/logo/muaraenim.png') ?>" alt="Logo Muara Enim" style="height:32px;width:32px;object-fit:contain;">
       </div>
       <span>TTIS</span>
       <small style="font-size:0.55rem;letter-spacing:1px;color:var(--cyber-text-dim);font-family:var(--font-mono);margin-left:4px;align-self:flex-end;padding-bottom:2px;">KAB. MUARA ENIM</small>
@@ -35,6 +43,12 @@
             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#laporModal"><i class="bi bi-exclamation-triangle me-2"></i>Lapor Insiden</a></li>
             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#cekResiModal"><i class="bi bi-search me-2"></i>Cek Resi</a></li>
           </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <?= $this->uri->segment(1)=='rfc2350' || ($this->uri->segment(1)=='welcome' && $this->uri->segment(2)=='rfc2350') ? 'active' : '' ?>"
+             href="<?= base_url('rfc2350') ?>">
+            <i class="bi bi-file-earmark-lock2 me-1"></i>RFC 2350
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#kontakModal"><i class="bi bi-headset me-1"></i>Kontak</a>

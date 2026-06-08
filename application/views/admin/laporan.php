@@ -1,11 +1,4 @@
-<?php if($this->session->flashdata('success')): ?>
-<script>document.addEventListener('DOMContentLoaded',()=>{
-  const t=document.createElement('div');
-  t.style.cssText='position:fixed;top:1.2rem;right:1.2rem;z-index:9999;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.4);color:#00ff88;padding:.75rem 1.5rem;border-radius:4px;font-family:monospace;font-size:.85rem;display:flex;align-items:center;gap:.5rem;';
-  t.innerHTML='<i class="bi bi-check-circle-fill"></i><?= addslashes($this->session->flashdata('success')) ?>';
-  document.body.appendChild(t);setTimeout(()=>t.remove(),4000);
-});</script>
-<?php endif; ?>
+<?php /* Flash handled by footer __ttis_flash__ bridge */ ?>
 
 <main class="container-fluid px-4 py-4">
 
@@ -20,33 +13,44 @@
     </a>
   </div>
 
-  <!-- Search & Filter -->
-  <form method="get" class="mb-4">
-    <div class="row g-2">
-      <div class="col-12 col-md-8 col-lg-6">
-        <div class="input-group">
-          <span class="input-group-text"
-                style="background:rgba(0,212,255,0.05);border:1px solid var(--cyber-border);border-right:none;color:var(--cyber-cyan);">
-            <i class="bi bi-search"></i>
-          </span>
-          <input type="text" name="q" class="form-control cyber-input" style="border-left:none;"
-                 placeholder="Cari judul, pelapor, kode resi..."
-                 value="<?= htmlspecialchars($q ?? '') ?>">
-          <button type="submit" class="btn btn-cyber px-4">Cari</button>
-          <?php if (!empty($q)): ?>
-            <a href="<?= site_url('laporan') ?>" class="btn btn-cyber" style="border-color:rgba(255,59,92,0.5);color:var(--cyber-red);" title="Hapus filter">
-              <i class="bi bi-x-lg"></i>
-            </a>
-          <?php endif; ?>
-        </div>
+  <!-- Search & Filter (server-side) -->
+  <form method="get" class="mb-3">
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <div class="input-group" style="max-width:460px;flex:1 1 280px;">
+        <span class="input-group-text"
+              style="background:rgba(0,212,255,0.05);border:1px solid var(--cyber-border);border-right:none;color:var(--cyber-cyan);">
+          <i class="bi bi-search" style="font-size:.85rem;"></i>
+        </span>
+        <input type="text" name="q" class="form-control cyber-input" style="border-left:none;"
+               placeholder="Cari judul, pelapor, kode resi..."
+               value="<?= htmlspecialchars($q ?? '') ?>">
+        <button type="submit" class="btn btn-cyber px-3" style="font-size:.82rem;letter-spacing:1px;">Cari</button>
+        <?php if (!empty($q)): ?>
+          <a href="<?= site_url('laporan') ?>" class="btn btn-cyber" style="border-color:rgba(255,59,92,0.5);color:var(--cyber-red);padding:0 .65rem;" title="Hapus filter">
+            <i class="bi bi-x-lg"></i>
+          </a>
+        <?php endif; ?>
       </div>
+      <small style="color:var(--cyber-text-dim);font-family:var(--font-mono);font-size:.68rem;white-space:nowrap;">
+        <?php if (!empty($q)): ?>
+          Hasil pencarian: <span style="color:var(--cyber-cyan);">"<?= htmlspecialchars($q) ?>"</span>
+        <?php else: ?>
+          Menampilkan semua laporan
+        <?php endif; ?>
+      </small>
     </div>
   </form>
+
+  <!-- React: Client-side quick filter + status tabs -->
+  <div class="d-flex flex-wrap gap-3 align-items-center mb-3" style="min-height:38px;">
+    <div data-live-search data-table="laporan-table" data-cols="1,2,3" data-placeholder="Filter cepat di halaman ini..."></div>
+    <div data-status-tabs data-table="laporan-table" data-col="4"></div>
+  </div>
 
   <!-- Cyber Table Card -->
   <div class="cyber-card p-0 overflow-hidden mb-4">
     <div class="table-responsive">
-      <table class="table cyber-table mb-0" style="min-width:720px;">
+      <table class="table cyber-table mb-0" id="laporan-table" style="min-width:720px;">
         <thead>
           <tr>
             <th style="width:38px;text-align:center;">#</th>

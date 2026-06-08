@@ -119,32 +119,73 @@
 <!-- Layanan Section -->
 <section class="py-5" style="background:var(--cyber-bg2);">
   <div class="container">
-    <div class="text-center mb-5">
+    <div class="text-center mb-5 scroll-reveal">
       <small style="color:var(--cyber-cyan);font-family:var(--font-mono);letter-spacing:3px;">// LAYANAN KAMI</small>
       <h2 style="font-family:var(--font-display);color:var(--cyber-text);margin-top:0.5rem;">Respons Cepat, Perlindungan Nyata</h2>
+      <div class="cyber-divider mx-auto" style="margin-top:.75rem;"></div>
     </div>
     <div class="row g-4">
-      <div class="col-md-4">
-        <div class="cyber-card h-100 p-4 text-center" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#laporModal">
+      <div class="col-md-4 scroll-reveal">
+        <div class="cyber-card cyber-card-shine h-100 p-4 text-center" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#laporModal">
           <div style="font-size:2.5rem;color:var(--cyber-red);margin-bottom:1rem;text-shadow:var(--cyber-glow-r);"><i class="bi bi-exclamation-octagon"></i></div>
           <div class="card-title">Lapor Insiden</div>
           <p class="card-text small mt-2">Laporkan insiden siber seperti website down, server error, konten ilegal, atau peretasan sistem.</p>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="cyber-card h-100 p-4 text-center" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#cekResiModal">
+      <div class="col-md-4 scroll-reveal">
+        <div class="cyber-card cyber-card-shine h-100 p-4 text-center" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#cekResiModal">
           <div style="font-size:2.5rem;color:var(--cyber-cyan);margin-bottom:1rem;text-shadow:var(--cyber-glow-c);"><i class="bi bi-clipboard-pulse"></i></div>
           <div class="card-title">Pantau Status</div>
           <p class="card-text small mt-2">Masukkan kode resi untuk memantau status penanganan laporan Anda secara real-time.</p>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="cyber-card h-100 p-4 text-center" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#kontakModal">
+      <div class="col-md-4 scroll-reveal">
+        <div class="cyber-card cyber-card-shine h-100 p-4 text-center" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#kontakModal">
           <div style="font-size:2.5rem;color:var(--cyber-green);margin-bottom:1rem;text-shadow:var(--cyber-glow-g);"><i class="bi bi-headset"></i></div>
           <div class="card-title">Kontak Tim</div>
           <p class="card-text small mt-2">Hubungi langsung anggota Tim TTIS via WhatsApp untuk penanganan insiden darurat.</p>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cara Melapor Section -->
+<section class="py-5" style="background:var(--cyber-bg);">
+  <div class="container">
+    <div class="text-center mb-5 scroll-reveal">
+      <small style="color:var(--cyber-cyan);font-family:var(--font-mono);letter-spacing:3px;">// PANDUAN PELAPORAN</small>
+      <h2 style="font-family:var(--font-display);color:var(--cyber-text);margin-top:0.5rem;">Cara Melapor Insiden</h2>
+      <div class="cyber-divider mx-auto" style="margin-top:.75rem;"></div>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      <div class="col-6 col-md-3 text-center scroll-reveal cyber-step-wrap">
+        <div class="cyber-step-num">01</div>
+        <h6 style="font-family:var(--font-display);font-size:.76rem;color:var(--cyber-cyan);letter-spacing:2px;margin-bottom:.6rem;">IDENTIFIKASI</h6>
+        <p style="color:var(--cyber-text-dim);font-size:.87rem;line-height:1.65;margin:0;">Identifikasi jenis insiden — website, server, email, aplikasi, atau konten berbahaya.</p>
+      </div>
+      <div class="col-6 col-md-3 text-center scroll-reveal cyber-step-wrap">
+        <div class="cyber-step-num">02</div>
+        <h6 style="font-family:var(--font-display);font-size:.76rem;color:var(--cyber-cyan);letter-spacing:2px;margin-bottom:.6rem;">DOKUMENTASI</h6>
+        <p style="color:var(--cyber-text-dim);font-size:.87rem;line-height:1.65;margin:0;">Ambil screenshot atau rekam bukti kejadian sebagai eviden yang akan dilampirkan.</p>
+      </div>
+      <div class="col-6 col-md-3 text-center scroll-reveal cyber-step-wrap">
+        <div class="cyber-step-num">03</div>
+        <h6 style="font-family:var(--font-display);font-size:.76rem;color:var(--cyber-cyan);letter-spacing:2px;margin-bottom:.6rem;">LAPORAN</h6>
+        <p style="color:var(--cyber-text-dim);font-size:.87rem;line-height:1.65;margin:0;">Isi formulir laporan melalui Lapor Insiden dan unggah eviden yang telah disiapkan.</p>
+      </div>
+      <div class="col-6 col-md-3 text-center scroll-reveal cyber-step-wrap">
+        <div class="cyber-step-num green">04</div>
+        <h6 style="font-family:var(--font-display);font-size:.76rem;color:var(--cyber-green);letter-spacing:2px;margin-bottom:.6rem;">PANTAU</h6>
+        <p style="color:var(--cyber-text-dim);font-size:.87rem;line-height:1.65;margin:0;">Simpan kode resi dan pantau status penanganan laporan Anda secara real-time.</p>
+      </div>
+    </div>
+
+    <div class="text-center mt-5 scroll-reveal">
+      <button class="btn btn-cyber btn-cyber-pulse px-4" data-bs-toggle="modal" data-bs-target="#laporModal">
+        <i class="bi bi-exclamation-triangle me-2"></i>Lapor Sekarang
+      </button>
     </div>
   </div>
 </section>

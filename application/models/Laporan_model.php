@@ -71,7 +71,8 @@ public function laporan_per_bulan($limit = 6)
 
 public function count_by_status($status)
 {
-    return $this->db->where('status', $status)->count_all_results('laporan');
+    // status tersimpan Title Case: 'Menunggu', 'Diproses', 'Selesai'
+    return $this->db->where('status', ucfirst(strtolower($status)))->count_all_results('laporan');
 }
 
 public function filter_by_date($tgl_awal, $tgl_akhir)

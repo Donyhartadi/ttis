@@ -22,20 +22,30 @@ class Laporan extends CI_Controller
 
     if ($this->form_validation->run() == FALSE) {
         $this->session->set_flashdata('error', validation_errors());
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : base_url());
         return;
     }
 
     // === VALIDASI CAPTCHA ===
     $recaptcha = $this->input->post('g-recaptcha-response');
-    $secretKey = '6LcCUoMrAAAAAM1sdeEF6NHAWXHONPAALwO6yi2z'; // ganti dengan secret dari Google
+    $secretKey = '6LcCUoMrAAAAAM1sdeEF6NHAWXHONPAALwO6yi2z';
 
-    $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptcha}");
-    $responseKeys = json_decode($response, true);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+        'secret'   => $secretKey,
+        'response' => $recaptcha,
+        'remoteip' => $this->input->ip_address(),
+    ]));
+    $verifyResponse = curl_exec($ch);
+    curl_close($ch);
+    $responseKeys = json_decode($verifyResponse, true);
 
-    if (!$responseKeys["success"]) {
+    if (empty($responseKeys['success'])) {
         $this->session->set_flashdata('error', 'Verifikasi CAPTCHA belum diselesaikan.');
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : base_url());
         return;
     }
 
@@ -48,7 +58,7 @@ class Laporan extends CI_Controller
 
     if (!$this->upload->do_upload('eviden')) {
         $this->session->set_flashdata('error', $this->upload->display_errors());
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : base_url());
         return;
     }
 
@@ -64,17 +74,18 @@ class Laporan extends CI_Controller
         'link'            => $this->input->post('link', true),
         'deskripsi'       => $this->input->post('deskripsi', true),
         'eviden'          => $upload_data['file_name'],
-        'status_laporan' => 'belum',
+        'status'          => 'Menunggu',
         'waktu_laporan'   => date('Y-m-d H:i:s')
     ];
 
     if ($this->Laporan_model->simpanLaporan($data)) {
         $this->session->set_flashdata('success', 'Laporan berhasil dikirim.');
         $this->session->set_flashdata('kode_resi', $kode_resi);
+        redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : base_url());
     } else {
         $this->session->set_flashdata('error', 'Gagal menyimpan laporan. Silakan coba lagi.');
+        redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : base_url());
     }
-    redirect(base_url('welcome'));
     
 }
 
@@ -116,15 +127,6 @@ class Laporan extends CI_Controller
         $this->load->view('admin/laporan', $data);
         $this->load->view('templates/footer', $data);
     }
-
-    public function update_status($id)
-    {
-        $this->db->where('id_laporan', $id);
-        $this->db->update('laporan', ['status_laporan' => 'sudah']);
-        $this->session->set_flashdata('success', 'Status laporan berhasil diperbarui.');
-        redirect('laporan');
-    }
-
 
     // Laporan.php (Controller)
 public function cetak()
@@ -182,6 +184,7 @@ public function cek_resi()
 
 public function cek_resi_ajax()
 {
+    header('Content-Type: application/json; charset=utf-8');
     $kode_resi = $this->input->post('kode_resi');
     $hasil = $this->Laporan_model->get_by_resi($kode_resi);
 

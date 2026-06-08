@@ -39,7 +39,7 @@
             <i class="bi bi-file-text me-1" style="color:var(--cyber-cyan);"></i>Keterangan / Deskripsi
           </label>
           <textarea name="keterangan" class="cyber-input w-100" rows="16" style="resize:vertical;"
-                    placeholder="Tulis keterangan lengkap kegiatan..." required><?= isset($kegiatan) ? $kegiatan->keterangan : '' ?></textarea>
+                    placeholder="Tulis keterangan lengkap kegiatan..." required><?= isset($kegiatan) ? htmlspecialchars($kegiatan->keterangan) : '' ?></textarea>
         </div>
       </div>
 

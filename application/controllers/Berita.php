@@ -10,7 +10,6 @@ class Berita extends CI_Controller {
       redirect('auth/login');
     }
 
-    // Cek role admin
     if ($this->session->userdata('role') != 'A') {
       show_error('Akses ditolak. Halaman ini hanya untuk admin.');
     }
@@ -20,7 +19,9 @@ class Berita extends CI_Controller {
   }
 
   public function index() {
-    $data['berita'] = $this->Berita_model->get_all();
+    $q = $this->input->get('q');
+    $data['berita'] = $this->Berita_model->get_all($q);
+    $data['q'] = $q;
     $this->load->view('templates/header');
     $this->load->view('templates/top');
     $this->load->view('admin/berita/index', $data);
@@ -30,20 +31,22 @@ class Berita extends CI_Controller {
   public function tambah() {
     if ($this->input->post()) {
       $data = [
-        'judul' => $this->input->post('judul'),
-        'isi' => $this->input->post('isi'),
-        'kategori' => $this->input->post('kategori'),
-        'tanggal' => date('Y-m-d'),
-        'slug' => url_title($this->input->post('judul'), 'dash', true),
-        'ringkasan' => word_limiter(strip_tags($this->input->post('isi')), 30)
+        'judul'     => $this->input->post('judul'),
+        'isi'       => $this->input->post('isi'),
+        'kategori'  => $this->input->post('kategori'),
+        'status'    => $this->input->post('status') ?: 'publish',
+        'tanggal'   => date('Y-m-d'),
+        'slug'      => url_title($this->input->post('judul'), 'dash', true),
+        'ringkasan' => word_limiter(strip_tags($this->input->post('isi')), 30),
       ];
 
-      // Upload Gambar
-      if ($_FILES['gambar']['name']) {
-        $config['upload_path'] = './assets/uploads/berita/';
-        $config['allowed_types'] = 'jpg|jpeg|png|webp';
-        $config['file_name'] = time();
-        $this->load->library('upload', $config);
+      if (!empty($_FILES['gambar']['name'])) {
+        $this->load->library('upload');
+        $this->upload->initialize([
+          'upload_path'   => './assets/uploads/berita/',
+          'allowed_types' => 'jpg|jpeg|png|webp',
+          'file_name'     => time(),
+        ]);
         if ($this->upload->do_upload('gambar')) {
           $data['gambar'] = $this->upload->data('file_name');
         }
@@ -66,18 +69,26 @@ class Berita extends CI_Controller {
 
     if ($this->input->post()) {
       $data = [
-        'judul' => $this->input->post('judul'),
-        'isi' => $this->input->post('isi'),
-        'kategori' => $this->input->post('kategori'),
-        'ringkasan' => word_limiter(strip_tags($this->input->post('isi')), 30)
+        'judul'     => $this->input->post('judul'),
+        'isi'       => $this->input->post('isi'),
+        'kategori'  => $this->input->post('kategori'),
+        'status'    => $this->input->post('status') ?: 'publish',
+        'slug'      => url_title($this->input->post('judul'), 'dash', true),
+        'ringkasan' => word_limiter(strip_tags($this->input->post('isi')), 30),
       ];
 
-      if ($_FILES['gambar']['name']) {
-        $config['upload_path'] = './assets/uploads/berita/';
-        $config['allowed_types'] = 'jpg|jpeg|png|webp';
-        $config['file_name'] = time();
-        $this->load->library('upload', $config);
+      if (!empty($_FILES['gambar']['name'])) {
+        $this->load->library('upload');
+        $this->upload->initialize([
+          'upload_path'   => './assets/uploads/berita/',
+          'allowed_types' => 'jpg|jpeg|png|webp',
+          'file_name'     => time(),
+        ]);
         if ($this->upload->do_upload('gambar')) {
+          if (!empty($berita->gambar)) {
+            $old = './assets/uploads/berita/' . $berita->gambar;
+            if (file_exists($old)) @unlink($old);
+          }
           $data['gambar'] = $this->upload->data('file_name');
         }
       }
@@ -90,11 +101,16 @@ class Berita extends CI_Controller {
     $data['berita'] = $berita;
     $this->load->view('templates/header');
     $this->load->view('templates/top');
-    $this->load->view('admin/berita/berita_form',$data);
+    $this->load->view('admin/berita/berita_form', $data);
     $this->load->view('templates/footer');
   }
 
   public function hapus($id) {
+    $berita = $this->Berita_model->get($id);
+    if ($berita && !empty($berita->gambar)) {
+      $file = './assets/uploads/berita/' . $berita->gambar;
+      if (file_exists($file)) @unlink($file);
+    }
     $this->Berita_model->delete($id);
     $this->session->set_flashdata('success', 'Berita berhasil dihapus.');
     redirect('berita');
@@ -103,12 +119,12 @@ class Berita extends CI_Controller {
   public function detail($slug) {
     $berita = $this->Berita_model->get_by_slug($slug);
     if (!$berita) show_404();
-  
+
     $data['berita'] = $berita;
     $this->load->view('templates/header');
     $this->load->view('templates/top');
-    $this->load->view('admin/berita/detail',$data);
+    $this->load->view('admin/berita/detail', $data);
     $this->load->view('templates/footer');
   }
-  
+
 }

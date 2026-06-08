@@ -5,7 +5,24 @@ class Berita_model extends CI_Model {
 
   private $table = 'berita';
 
-  public function get_all() {
+  public function get_all($search = '') {
+    if ($search) {
+      $this->db->group_start();
+      $this->db->like('judul', $search);
+      $this->db->or_like('kategori', $search);
+      $this->db->group_end();
+    }
+    return $this->db->order_by('id', 'DESC')->get($this->table)->result();
+  }
+
+  public function get_published($search = '') {
+    $this->db->where("(status = 'publish' OR status IS NULL OR status = '')", NULL, FALSE);
+    if ($search) {
+      $this->db->group_start();
+      $this->db->like('judul', $search);
+      $this->db->or_like('kategori', $search);
+      $this->db->group_end();
+    }
     return $this->db->order_by('id', 'DESC')->get($this->table)->result();
   }
 

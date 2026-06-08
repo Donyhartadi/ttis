@@ -7,8 +7,8 @@ $segment2 = $this->uri->segment(2);
 <nav class="cyber-navbar navbar navbar-expand-lg">
   <div class="container-fluid px-4">
     <a class="navbar-brand" href="<?= base_url('admin') ?>">
-      <div class="brand-icon">
-        <i class="bi bi-shield-shaded" style="color:var(--cyber-cyan);font-size:1rem;"></i>
+      <div class="brand-icon" style="background:transparent;border:none;padding:0;">
+        <img src="<?= base_url('assets/logo/muaraenim.png') ?>" alt="Logo Muara Enim" style="height:30px;width:30px;object-fit:contain;">
       </div>
       <span>TTIS</span>
       <small style="font-size:0.5rem;letter-spacing:1px;color:var(--cyber-text-dim);font-family:var(--font-mono);margin-left:4px;align-self:flex-end;padding-bottom:2px;">ADMIN PANEL</small>

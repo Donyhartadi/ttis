@@ -15,9 +15,9 @@
 
   <?= form_open_multipart('', ['id' => 'formBerita']) ?>
 
-  <!-- Baris 1: Judul + Kategori sejajar -->
+  <!-- Baris 1: Judul + Kategori + Status -->
   <div class="row g-3 mb-3">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
       <label class="cyber-label">Judul Berita</label>
       <input type="text" name="judul" value="<?= isset($berita) ? htmlspecialchars($berita->judul) : '' ?>"
              class="cyber-input" placeholder="Tulis judul berita yang menarik..." required>
@@ -26,6 +26,13 @@
       <label class="cyber-label">Kategori</label>
       <input type="text" name="kategori" value="<?= isset($berita) ? htmlspecialchars($berita->kategori) : '' ?>"
              class="cyber-input" placeholder="Misal: Keamanan Siber" required>
+    </div>
+    <div class="col-lg-2">
+      <label class="cyber-label">Status</label>
+      <select name="status" class="cyber-input">
+        <option value="publish" <?= (isset($berita) && ($berita->status ?? '') === 'publish') || !isset($berita) ? 'selected' : '' ?>>Publish</option>
+        <option value="draft" <?= (isset($berita) && ($berita->status ?? '') === 'draft') ? 'selected' : '' ?>>Draft</option>
+      </select>
     </div>
   </div>
 
@@ -37,7 +44,7 @@
       <div class="cyber-card" style="height:100%;">
         <label class="cyber-label mb-2">Isi Berita</label>
         <textarea name="isi" rows="18" class="cyber-input w-100" style="resize:vertical;"
-                  placeholder="Tulis isi lengkap berita di sini..."><?= isset($berita) ? $berita->isi : '' ?></textarea>
+                  placeholder="Tulis isi lengkap berita di sini..."><?= isset($berita) ? htmlspecialchars($berita->isi) : '' ?></textarea>
       </div>
     </div>
 
@@ -51,7 +58,7 @@
           <span style="color:var(--cyber-text-dim);font-weight:400;font-size:0.8rem;"> (opsional)</span>
         </label>
 
-        <?php if (!empty($berita->gambar)): ?>
+        <?php if (isset($berita) && !empty($berita->gambar)): ?>
           <div class="mb-3 text-center">
             <img src="<?= base_url('assets/uploads/berita/' . $berita->gambar) ?>"
                  alt="Gambar saat ini" class="rounded w-100"

@@ -10,7 +10,7 @@
   <!-- Bootstrap 5 & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="icon" type="image/x-icon" href="<?= base_url(); ?>assets/favicon.ico" />
+  <link rel="icon" type="image/png" href="<?= base_url('assets/logo/muaraenim.png') ?>">
 
   <!-- Cybersecurity Theme -->
   <link href="<?= base_url(); ?>assets/css/cyber.css" rel="stylesheet" />

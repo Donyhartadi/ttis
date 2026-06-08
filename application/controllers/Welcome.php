@@ -41,14 +41,15 @@ class Welcome extends CI_Controller {
 
 	public function berita()
 	{
-		$this->load->model('Berita_model'); // Pastikan model dimuat
+		$this->load->model('Berita_model');
 		$this->load->helper('text');
-		$data['berita'] = $this->Berita_model->get_all(); // Ambil semua berita
-	
+		$q = $this->input->get('q');
+		$data['berita'] = $this->Berita_model->get_published($q);
+		$data['q'] = $q;
 		$data['title'] = "Berita";
 		$this->load->view('templates/public/header', $data);
 		$this->load->view('templates/public/top');
-		$this->load->view('berita', $data); // arahkan ke view berita
+		$this->load->view('berita', $data);
 		$this->load->view('templates/public/footer');
 	}
 
@@ -81,7 +82,7 @@ class Welcome extends CI_Controller {
 		$page = (int) $this->input->get('per_page');
 	
 		// Konfigurasi pagination
-		$config['base_url'] = site_url('kegiatan/index?q=' . urlencode($keyword));
+		$config['base_url'] = site_url('welcome/kegiatan?q=' . urlencode($keyword));
 		$config['total_rows'] = $this->Kegiatan_model->count_all($keyword);
 		$config['per_page'] = 10;
 		$config['page_query_string'] = TRUE;
@@ -99,6 +100,15 @@ class Welcome extends CI_Controller {
 		$this->load->view('templates/public/footer');
 	}
 	
+// RFC 2350 document page
+public function rfc2350() {
+    $data['title'] = 'RFC 2350';
+    $this->load->view('templates/public/header', $data);
+    $this->load->view('templates/public/top');
+    $this->load->view('rfc2350');
+    $this->load->view('templates/public/footer');
+}
+
 // Detail kegiatan
 public function detail_kegiatan($id) {
     $this->load->model(['Kegiatan_model', 'Absensi_model']);
@@ -125,14 +135,14 @@ public function absen($id) {
     // 🚫 Cek apakah absensi dibuka
     if (empty($kegiatan->is_absensi_open) || !$kegiatan->is_absensi_open) {
         $this->session->set_flashdata('error', 'Absensi untuk kegiatan ini sudah ditutup.');
-        redirect('welcome/detail/'.$id);
+        redirect('welcome/detail_kegiatan/'.$id);
         return;
     }
 
     // Rules validasi
-    $this->form_validation->set_rules('nama_peserta', 'Nama Lengkap', 'required');
-    $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-    $this->form_validation->set_rules('asal_opd', 'Asal Unit Kerja', 'required');
+    $this->form_validation->set_rules('nama_peserta', 'Nama Lengkap', 'required|trim');
+    $this->form_validation->set_rules('email', 'Email', 'trim|valid_email');
+    $this->form_validation->set_rules('asal_opd', 'Asal Unit Kerja', 'required|trim');
     $this->form_validation->set_rules('kepuasan', 'Kepuasan', 'required');
 
     if ($this->input->post()) {

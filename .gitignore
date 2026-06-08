@@ -1,11 +1,25 @@
 # Database config (berisi kredensial)
 application/config/database.php
 
+# Folder duplikat
+ttis/
+
 # CodeIgniter cache & logs
 application/logs/*
 application/cache/*
 !application/logs/index.html
 !application/cache/index.html
+
+# Upload files (user-generated content)
+assets/uploads/berita/*
+assets/uploads/kegiatan/*
+assets/uploads/lampiran/*
+!assets/uploads/berita/index.html
+!assets/uploads/kegiatan/index.html
+!assets/uploads/lampiran/index.html
+application/uploads/eviden/*
+!application/uploads/eviden/.htaccess
+!application/uploads/eviden/index.html
 
 # OS files
 .DS_Store

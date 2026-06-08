@@ -1,7 +1,7 @@
 ﻿<main class="container-fluid px-4 py-4">
   <nav aria-label="breadcrumb" class="mb-4">
     <ol class="breadcrumb" style="background:transparent;padding:0;">
-      <li class="breadcrumb-item"><a href="<?= site_url('admin/berita') ?>" style="color:var(--cyber-cyan);text-decoration:none;">Berita</a></li>
+      <li class="breadcrumb-item"><a href="<?= site_url('berita') ?>" style="color:var(--cyber-cyan);text-decoration:none;">Berita</a></li>
       <li class="breadcrumb-item active" style="color:var(--cyber-text-dim);">Detail</li>
     </ol>
   </nav>
@@ -12,14 +12,11 @@
     <?php endif; ?>
 
     <div class="mb-2">
-      <span class="badge-cyber-cyan me-2"><?= $berita->kategori ?></span>
+      <span class="badge-cyber-cyan me-2"><?= htmlspecialchars($berita->kategori) ?></span>
       <span style="color:var(--cyber-text-dim);font-size:0.85rem;"><?= date('d M Y', strtotime($berita->tanggal)) ?></span>
-      <?php if (!empty($berita->waktu_kegiatan)): ?>
-        <span style="color:var(--cyber-text-dim);font-size:0.85rem;"> &middot; <?= date('H:i', strtotime($berita->waktu_kegiatan)) ?> WIB</span>
-      <?php endif; ?>
     </div>
 
-    <h2 class="mb-3" style="font-family:var(--font-display);color:var(--cyber-text);font-size:1.6rem;"><?= $berita->judul ?></h2>
+    <h2 class="mb-3" style="font-family:var(--font-display);color:var(--cyber-text);font-size:1.6rem;"><?= htmlspecialchars($berita->judul) ?></h2>
 
     <div class="mb-4 pb-3" style="border-bottom:1px solid var(--cyber-border);">
       <small style="color:var(--cyber-text-dim);font-family:var(--font-mono);">Tim Persandian dan Keamanan Informasi</small>

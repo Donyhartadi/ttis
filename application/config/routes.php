@@ -54,3 +54,4 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['cek-resi'] = 'laporan/cek_resi';
 $route['laporan/cek_resi_ajax'] = 'laporan/cek_resi_ajax';
+$route['rfc2350'] = 'welcome/rfc2350';

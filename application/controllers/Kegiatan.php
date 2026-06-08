@@ -51,19 +51,21 @@ class Kegiatan extends CI_Controller {
 
   public function tambah() {
     if ($this->input->post()) {
+        $this->load->library('upload');
         $data = [
             'nama_kegiatan'   => $this->input->post('nama_kegiatan', TRUE),
             'waktu_kegiatan'  => $this->input->post('waktu_kegiatan', TRUE),
             'keterangan'      => $this->input->post('keterangan', TRUE),
-            'sertifikat_link' => $this->input->post('sertifikat_link', TRUE) // Tambahan
+            'sertifikat_link' => $this->input->post('sertifikat_link', TRUE)
         ];
 
         // Upload gambar
         if (!empty($_FILES['gambar']['name'])) {
-            $config['upload_path']   = './assets/uploads/kegiatan/';
-            $config['allowed_types'] = 'jpg|jpeg|png|webp';
-            $config['file_name']     = time();
-            $this->load->library('upload', $config);
+            $this->upload->initialize([
+                'upload_path'   => './assets/uploads/kegiatan/',
+                'allowed_types' => 'jpg|jpeg|png|webp',
+                'file_name'     => time(),
+            ]);
 
             if ($this->upload->do_upload('gambar')) {
                 $data['gambar'] = $this->upload->data('file_name');
@@ -74,6 +76,12 @@ class Kegiatan extends CI_Controller {
         $files = $_FILES;
         $lampiran_files = [];
         if (!empty($_FILES['lampiran']['name'][0])) {
+            $lampiran_config = [
+                'upload_path'   => './assets/uploads/lampiran/',
+                'allowed_types' => 'pdf|doc|docx|xls|xlsx|zip|rar|jpg|jpeg|png',
+                'max_size'      => 5120,
+                'encrypt_name'  => TRUE,
+            ];
             $count = count($_FILES['lampiran']['name']);
             for ($i = 0; $i < $count; $i++) {
                 $_FILES['lampiran']['name']     = $files['lampiran']['name'][$i];
@@ -82,12 +90,7 @@ class Kegiatan extends CI_Controller {
                 $_FILES['lampiran']['error']    = $files['lampiran']['error'][$i];
                 $_FILES['lampiran']['size']     = $files['lampiran']['size'][$i];
 
-                $config['upload_path']   = './assets/uploads/lampiran/';
-                $config['allowed_types'] = 'pdf|doc|docx|xls|xlsx|zip|rar|jpg|jpeg|png';
-                $config['max_size']      = 5120;
-                $config['encrypt_name']  = TRUE;
-
-                $this->load->library('upload', $config);
+                $this->upload->initialize($lampiran_config);
 
                 if ($this->upload->do_upload('lampiran')) {
                     $lampiran_files[] = $this->upload->data('file_name');
@@ -115,14 +118,15 @@ public function edit($id) {
   if (!$kegiatan) show_404();
 
   if ($this->input->post()) {
+      $this->load->library('upload');
       $data = [
           'nama_kegiatan'   => $this->input->post('nama_kegiatan', TRUE),
           'waktu_kegiatan'  => $this->input->post('waktu_kegiatan', TRUE),
           'keterangan'      => $this->input->post('keterangan', TRUE),
-          'sertifikat_link' => $this->input->post('sertifikat_link', TRUE) // Tambahan
+          'sertifikat_link' => $this->input->post('sertifikat_link', TRUE)
       ];
 
-      // ✅ Jika user centang hapus semua lampiran
+      // Jika user centang hapus semua lampiran
       if ($this->input->post('hapus_lampiran')) {
           if (!empty($kegiatan->lampiran)) {
               $old_files = json_decode($kegiatan->lampiran, true);
@@ -131,15 +135,16 @@ public function edit($id) {
                   if (file_exists($path)) unlink($path);
               }
           }
-          $data['lampiran'] = NULL; // kosongkan di DB
+          $data['lampiran'] = NULL;
       }
 
       // Upload gambar baru
       if (!empty($_FILES['gambar']['name'])) {
-          $config['upload_path']   = './assets/uploads/kegiatan/';
-          $config['allowed_types'] = 'jpg|jpeg|png|webp';
-          $config['file_name']     = time();
-          $this->load->library('upload', $config);
+          $this->upload->initialize([
+              'upload_path'   => './assets/uploads/kegiatan/',
+              'allowed_types' => 'jpg|jpeg|png|webp',
+              'file_name'     => time(),
+          ]);
 
           if ($this->upload->do_upload('gambar')) {
               if (!empty($kegiatan->gambar) && file_exists('./assets/uploads/kegiatan/' . $kegiatan->gambar)) {
@@ -153,6 +158,12 @@ public function edit($id) {
       $files = $_FILES;
       $lampiran_files = [];
       if (!empty($_FILES['lampiran']['name'][0])) {
+          $lampiran_config = [
+              'upload_path'   => './assets/uploads/lampiran/',
+              'allowed_types' => 'pdf|doc|docx|xls|xlsx|zip|rar|jpg|jpeg|png',
+              'max_size'      => 5120,
+              'encrypt_name'  => TRUE,
+          ];
           $count = count($_FILES['lampiran']['name']);
           for ($i = 0; $i < $count; $i++) {
               $_FILES['lampiran']['name']     = $files['lampiran']['name'][$i];
@@ -161,12 +172,7 @@ public function edit($id) {
               $_FILES['lampiran']['error']    = $files['lampiran']['error'][$i];
               $_FILES['lampiran']['size']     = $files['lampiran']['size'][$i];
 
-              $config['upload_path']   = './assets/uploads/lampiran/';
-              $config['allowed_types'] = 'pdf|doc|docx|xls|xlsx|zip|rar|jpg|jpeg|png';
-              $config['max_size']      = 5120;
-              $config['encrypt_name']  = TRUE;
-
-              $this->load->library('upload', $config);
+              $this->upload->initialize($lampiran_config);
 
               if ($this->upload->do_upload('lampiran')) {
                   $lampiran_files[] = $this->upload->data('file_name');
@@ -241,6 +247,7 @@ public function edit($id) {
     $data['absensi']  = $this->Absensi_model->get_by_kegiatan($id);
 
     $this->load->view('templates/header');
+    $this->load->view('templates/top');
     $this->load->view('admin/kegiatan/absensi_list', $data);
     $this->load->view('templates/footer');
   }

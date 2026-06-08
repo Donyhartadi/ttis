@@ -26,8 +26,8 @@
   <div class="container">
     <div class="row g-4">
       <!-- Jenis Laporan -->
-      <div class="col-md-4 fade-in-up">
-        <div class="cyber-card h-100">
+      <div class="col-md-4 scroll-reveal">
+        <div class="cyber-card cyber-card-shine h-100">
           <div class="mb-3" style="font-size:2.5rem;color:var(--cyber-cyan);text-shadow:0 0 15px rgba(0,212,255,0.5);">
             <i class="bi bi-shield-exclamation"></i>
           </div>
@@ -42,7 +42,7 @@
         </div>
       </div>
       <!-- Waktu Respons -->
-      <div class="col-md-4 fade-in-up" style="animation-delay:.1s;">
+      <div class="col-md-4 scroll-reveal">
         <div class="cyber-card h-100">
           <div class="mb-3" style="font-size:2.5rem;color:var(--cyber-green);text-shadow:0 0 15px rgba(0,255,136,0.5);">
             <i class="bi bi-clock-history"></i>
@@ -64,7 +64,7 @@
         </div>
       </div>
       <!-- Kerahasiaan -->
-      <div class="col-md-4 fade-in-up" style="animation-delay:.2s;">
+      <div class="col-md-4 scroll-reveal">
         <div class="cyber-card h-100">
           <div class="mb-3" style="font-size:2.5rem;color:var(--cyber-purple);text-shadow:0 0 15px rgba(168,85,247,0.5);">
             <i class="bi bi-lock-fill"></i>
