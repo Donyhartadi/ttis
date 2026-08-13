@@ -1,64 +1,106 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="utf-8">
-<title>Database Error</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kesalahan Database | TTIS</title>
 <style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
 
-::selection { background-color: #E13300; color: white; }
-::-moz-selection { background-color: #E13300; color: white; }
+::selection { background-color: #00d4ff; color: #050b14; }
+
+* { box-sizing: border-box; }
 
 body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
+	background-color: #050b14;
+	background-image:
+		linear-gradient(rgba(0,212,255,0.05) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(0,212,255,0.05) 1px, transparent 1px);
+	background-size: 40px 40px;
+	color: #c8d8e8;
+	font: 15px/1.6 'Rajdhani', Helvetica, Arial, sans-serif;
+	min-height: 100vh;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem 1rem;
 }
 
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
+a { color: #00d4ff; }
+
+#container {
+	max-width: 640px;
+	width: 100%;
+	background: #0d1f2d;
+	border: 1px solid rgba(255,176,32,0.3);
+	border-radius: 6px;
+	box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(255,176,32,0.08);
+	padding: 2.5rem 2rem;
+	text-align: center;
+}
+
+.error-tag {
+	font-family: 'Share Tech Mono', monospace;
+	font-size: 0.78rem;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	color: #ffb020;
+	margin: 0 0 1.25rem;
 }
 
 h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
+	color: #ffb020;
+	font-family: 'Orbitron', sans-serif;
+	font-weight: 700;
+	font-size: 1.3rem;
+	margin: 0 0 1rem 0;
+	border: none;
+	text-shadow: 0 0 20px rgba(255,176,32,0.4);
 }
+
+p { margin: 0.5rem 0; color: #c8d8e8; }
 
 code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
+	font-family: 'Share Tech Mono', Consolas, Monaco, monospace;
 	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
+	background: rgba(0,0,0,0.35);
+	border: 1px solid rgba(255,176,32,0.25);
+	color: #ffd280;
 	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
+	margin: 1rem 0;
+	padding: 0.75rem 1rem;
+	border-radius: 3px;
+	text-align: left;
+	overflow-x: auto;
 }
 
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	box-shadow: 0 0 8px #D0D0D0;
+.btn-home {
+	display: inline-block;
+	margin-top: 1.5rem;
+	padding: 0.6rem 1.6rem;
+	border: 1px solid #00d4ff;
+	color: #00d4ff;
+	background: rgba(0,212,255,0.08);
+	border-radius: 3px;
+	text-decoration: none;
+	font-weight: 700;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	font-size: 0.85rem;
+	transition: all 0.2s ease;
 }
-
-p {
-	margin: 12px 15px 12px 15px;
-}
+.btn-home:hover { background: #00d4ff; color: #050b14; }
 </style>
 </head>
 <body>
 	<div id="container">
+		<div class="error-tag">&#9888; DATABASE ALERT &mdash; TTIS KAB. MUARA ENIM</div>
 		<h1><?php echo $heading; ?></h1>
 		<?php echo $message; ?>
+		<a class="btn-home" href="/">Kembali ke Beranda</a>
 	</div>
 </body>
 </html>

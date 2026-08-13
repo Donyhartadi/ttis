@@ -77,41 +77,29 @@
           <input type="text" name="kode_resi" class="form-control cyber-input form-control-lg mb-3" placeholder="Masukkan Kode Resi Anda..." required>
           <div id="hasilResi"></div>
           <?php if (isset($hasil)): ?>
-<?php if ($hasil): ?>
-  <div class="alert alert-success">
-    <strong>📌 Kode Resi:</strong> <?= $hasil['kode_resi'] ?><br>
-    <strong>👤 Nama Pelapor:</strong> <?= $hasil['nama_pelapor'] ?><br>
-    <strong>📝 Jenis Laporan:</strong> <?= $hasil['judul_laporan'] ?><br>
-    <strong>⏰ Tanggal Lapor:</strong> <?= date('d-m-Y H:i', strtotime($hasil['waktu_laporan'])) ?><br>
-    <strong>📊 Status:</strong>
-    <?php
-      $status = strtolower($hasil['status']);
-      $badgeClass = match ($status) {
-        'menunggu' => 'bg-warning text-dark',
-        'diproses' => 'bg-primary',
-        'selesai'  => 'bg-success',
-        default    => 'bg-secondary'
-      };
-    ?>
-<span class="badge <?= $badgeClass ?>"><?= ucfirst($status) ?></span><br>
-<small class="text-muted d-block mt-1">
-<?php
-  echo match ($status) {
-    'menunggu' => '⏳ Laporan Anda sedang menunggu diproses.',
-    'diproses' => '🔧 Laporan sedang dalam penanganan oleh tim kami.',
-    'selesai' => '✅ Terima kasih telah melaporkan. Insiden telah ditindaklanjuti.',
-    default => 'Status tidak dikenali.'
-  };
-?>
-</small>
-
-  </div>
-<?php else: ?>
-  <div class="alert alert-danger">
-    <i class="bi bi-x-circle-fill me-2"></i>Kode resi tidak ditemukan. Periksa kembali atau hubungi admin.
-  </div>
-<?php endif; ?>
-<?php endif; ?>
+            <?php if ($hasil):
+              $status = strtolower($hasil['status']);
+              $colorMap = ['menunggu' => 'var(--cyber-amber)', 'diproses' => 'var(--cyber-cyan)', 'selesai' => 'var(--cyber-green)'];
+              $msgMap = [
+                'menunggu' => 'Laporan Anda sedang menunggu diproses.',
+                'diproses' => 'Laporan sedang dalam penanganan oleh tim kami.',
+                'selesai'  => 'Terima kasih telah melaporkan. Insiden telah ditindaklanjuti.',
+              ];
+              $c = $colorMap[$status] ?? 'var(--cyber-text)';
+            ?>
+              <div style="background:rgba(0,212,255,0.05);border:1px solid var(--cyber-border);padding:1rem;border-radius:4px;">
+                <div class="mb-1"><small style="color:var(--cyber-text-dim);font-family:var(--font-mono);">KODE RESI</small><br><strong style="color:var(--cyber-cyan)"><?= htmlspecialchars($hasil['kode_resi']) ?></strong></div>
+                <div class="mb-1"><small style="color:var(--cyber-text-dim);">Pelapor:</small> <span style="color:var(--cyber-text)"><?= htmlspecialchars($hasil['nama_pelapor']) ?></span></div>
+                <div class="mb-1"><small style="color:var(--cyber-text-dim);">Jenis:</small> <span style="color:var(--cyber-text)"><?= htmlspecialchars($hasil['judul_laporan']) ?></span></div>
+                <div class="mb-1"><small style="color:var(--cyber-text-dim);">Tanggal:</small> <span style="color:var(--cyber-text)"><?= date('d-m-Y H:i', strtotime($hasil['waktu_laporan'])) ?></span></div>
+                <div class="mt-2"><span style="color:<?= $c ?>;font-family:var(--font-display);font-size:0.85rem;letter-spacing:1px;">[<?= strtoupper($status) ?>]</span> <small style="color:var(--cyber-text-dim)"><?= $msgMap[$status] ?? '' ?></small></div>
+              </div>
+            <?php else: ?>
+              <div style="background:rgba(255,59,92,0.08);border:1px solid rgba(255,59,92,0.3);padding:1rem;border-radius:4px;color:var(--cyber-red)">
+                <i class="bi bi-x-octagon me-2"></i>Kode resi tidak ditemukan. Periksa kembali atau hubungi admin.
+              </div>
+            <?php endif; ?>
+          <?php endif; ?>
 
         </div>
         <div class="modal-footer cyber-modal-footer">

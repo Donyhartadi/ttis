@@ -12,7 +12,7 @@
     <?php endif; ?>
 
     <div class="mb-2">
-      <span class="badge-cyber-cyan me-2"><?= htmlspecialchars($berita->kategori) ?></span>
+      <span class="badge badge-cyber-cyan me-2"><?= htmlspecialchars($berita->kategori) ?></span>
       <span style="color:var(--cyber-text-dim);font-size:0.85rem;"><?= date('d M Y', strtotime($berita->tanggal)) ?></span>
     </div>
 

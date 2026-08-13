@@ -154,7 +154,7 @@
                  class="btn btn-cyber btn-sm"
                  style="border-color:rgba(168,85,247,.4);color:var(--cyber-purple);">
                 <i class="bi <?= $icon ?> me-1"></i>
-                Lampiran <?= count($lampiran_list) > 1 ? ($idx + 1) : '' ?>
+                Virtual Backround <?= count($lampiran_list) > 1 ? ($idx + 1) : '' ?>
                 <small style="opacity:.6;">.<?= $ext ?></small>
               </a>
             <?php endforeach; ?>
@@ -256,7 +256,7 @@
             <a href="<?= htmlspecialchars($kegiatan->sertifikat_link) ?>" target="_blank" rel="noopener noreferrer"
                class="btn btn-cyber w-100"
                style="border-color:rgba(255,176,32,0.5);color:var(--cyber-amber);background:rgba(255,176,32,0.05);">
-              <i class="bi bi-award me-1"></i>Lihat Sertifikat
+              <i class="bi bi-award me-1"></i>Lihat Materi dan Sertifikat
             </a>
           </div>
         <?php endif; ?>
@@ -270,6 +270,16 @@
 <style>
 /* ===== KEGIATAN DETAIL — MOBILE-FIRST STYLES ===== */
 .kegiatan-detail-wrap { max-width: 980px; }
+
+/* Give breathing room inside every card */
+.kegiatan-detail-wrap .cyber-card {
+  padding: 1.1rem 1.25rem;
+}
+@media (min-width: 768px) {
+  .kegiatan-detail-wrap .cyber-card {
+    padding: 1.4rem 1.6rem;
+  }
+}
 
 /* Hero */
 .kegiatan-hero-wrap {
