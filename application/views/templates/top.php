@@ -46,6 +46,41 @@ $segment2 = $this->uri->segment(2);
           </a>
         </li>
 
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle <?= $segment1 == 'kontak' ? 'active' : '' ?>" href="#" id="kontakDropdown"
+             role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-telephone me-1"></i>Kontak
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="kontakDropdown">
+            <li>
+              <a class="dropdown-item" href="<?= base_url('kontak/admin_setting') ?>">
+                <i class="bi bi-gear me-2"></i>Pengaturan
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="<?= base_url('kontak/admin_operator') ?>">
+                <i class="bi bi-people me-2"></i>Operator
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="<?= base_url('kontak/admin_publickey') ?>">
+                <i class="bi bi-key me-2"></i>Public Key
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="<?= base_url('kontak/admin_dokumen') ?>">
+                <i class="bi bi-file-earmark-text me-2"></i>Dokumen
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link <?= $segment1 == 'rfc2350' ? 'active' : '' ?>" href="<?= base_url('rfc2350/admin') ?>">
+            <i class="bi bi-file-earmark-pdf me-1"></i>RFC 2350
+          </a>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link <?= ($segment1 == 'laporan' && $segment2 == 'cetak') ? 'active' : '' ?>" href="<?= base_url('laporan/cetak') ?>">
             <i class="bi bi-printer me-1"></i>Cetak

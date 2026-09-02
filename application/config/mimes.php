@@ -131,6 +131,8 @@ return array(
 	'kdb'   =>	'application/octet-stream',
 	'pgp'   =>	'application/pgp',
 	'gpg'   =>	'application/gpg-keys',
+	'asc'   =>	array('application/pgp-keys', 'application/pgp-signature', 'application/pgp-encrypted', 'text/plain', 'application/octet-stream'),
+	'key'   =>	array('application/pgp-keys', 'application/octet-stream', 'text/plain'),
 	'sst'   =>	'application/octet-stream',
 	'csr'   =>	'application/octet-stream',
 	'rsa'   =>	'application/x-pkcs7',

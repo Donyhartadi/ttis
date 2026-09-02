@@ -1,0 +1,13 @@
+# Mencegah akses langsung ke folder ini
+# Hanya bisa download melalui controller
+
+<FilesMatch "\.(php|html|htm)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# Allow akses file PDF
+<FilesMatch "\.pdf$">
+  Order Allow,Deny
+  Allow from all
+</FilesMatch>

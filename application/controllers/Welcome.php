@@ -21,10 +21,26 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$data['title'] = "TTIS";
-		$this->load->view('templates/public/header', $data);
-		$this->load->view('templates/public/top');
-		$this->load->view('welcome');
-		$this->load->view('templates/public/footer');
+        $this->load->model(['Berita_model', 'Kontak_model']);
+		$this->load->helper('text');
+		
+        // Load berita terbaru (3 item untuk carousel)
+            $this->db->where('status', 'publish');
+        $this->db->order_by('tanggal', 'DESC');
+        $this->db->limit(3);
+        $berita_query = $this->db->get('berita');
+        $data['berita'] = $berita_query->result();
+		
+        // Load dokumen dari kontak_dokumen
+        $this->db->order_by('tanggal_upload', 'DESC');
+        $this->db->limit(3);
+        $dokumen_query = $this->db->get('kontak_dokumen');
+        $data['dokumen'] = $dokumen_query->result();
+		
+        $this->load->view('templates/public/header', $data);
+        $this->load->view('templates/public/top');
+        $this->load->view('welcome', $data);
+        $this->load->view('templates/public/footer');
 		
 	}
 
@@ -102,11 +118,28 @@ class Welcome extends CI_Controller {
 	
 // RFC 2350 document page
 public function rfc2350() {
-    $data['title'] = 'RFC 2350';
+    // Query RFC 2350 dokumen yang aktif
+    $this->load->model('Rfc2350_model');
+    $rfc = $this->Rfc2350_model->get_aktif();
+    
+    // Jika menggunakan query langsung jika model tidak bekerja
+    if (empty($rfc)) {
+        $this->db->where('status', 'aktif');
+        $this->db->order_by('tanggal_publikasi', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('rfc2350');
+        $rfc = $query->row();
+    }
+    
+    $data = array(
+        'rfc' => $rfc,
+        'title' => 'RFC 2350'
+    );
+    
     $this->load->view('templates/public/header', $data);
-    $this->load->view('templates/public/top');
-    $this->load->view('rfc2350');
-    $this->load->view('templates/public/footer');
+    $this->load->view('templates/public/top', $data);
+    $this->load->view('rfc2350', $data);
+    $this->load->view('templates/public/footer', $data);
 }
 
 // Detail kegiatan

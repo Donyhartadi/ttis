@@ -51,7 +51,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#kontakModal"><i class="bi bi-headset me-1"></i>Kontak</a>
+          <a class="nav-link <?= $this->uri->segment(1)=='kontak' ? 'active' : '' ?>" href="<?= base_url('kontak') ?>"><i class="bi bi-headset me-1"></i>Kontak</a>
         </li>
         <li class="nav-item ms-lg-2">
           <a class="btn btn-cyber btn-sm px-3" href="<?= base_url('auth'); ?>"><i class="bi bi-lock me-1"></i>Login</a>

@@ -25,6 +25,9 @@
             <button class="btn btn-cyber-outline btn-cyber btn-lg" data-bs-toggle="modal" data-bs-target="#cekResiModal">
               <i class="bi bi-search me-2"></i>Cek Status
             </button>
+            <button class="btn btn-cyber-outline btn-cyber btn-lg" data-bs-toggle="modal" data-bs-target="#kontakModal">
+              <i class="bi bi-headset me-2"></i>Kontak Tim
+            </button>
           </div>
         </div>
       </div>
@@ -87,7 +90,7 @@
     </div>
 
     <!-- Stats bar -->
-    <div class="row g-3 mt-5">
+    <div class="row g-3 mt-4">
       <div class="col-6 col-md-3">
         <div style="background:rgba(0,212,255,0.05);border:1px solid var(--cyber-border);border-left:3px solid var(--cyber-cyan);padding:1rem;border-radius:2px;text-align:center;">
           <div style="font-family:var(--font-display);font-size:1.6rem;color:var(--cyber-cyan);">24/7</div>
@@ -116,47 +119,13 @@
   </div>
 </section>
 
-<!-- Layanan Section -->
-<section class="py-5" style="background:var(--cyber-bg2);">
-  <div class="container">
-    <div class="text-center mb-5 scroll-reveal">
-      <small style="color:var(--cyber-cyan);font-family:var(--font-mono);letter-spacing:3px;">// LAYANAN KAMI</small>
-      <h2 style="font-family:var(--font-display);color:var(--cyber-text);margin-top:0.5rem;">Respons Cepat, Perlindungan Nyata</h2>
-      <div class="cyber-divider mx-auto" style="margin-top:.75rem;"></div>
-    </div>
-    <div class="row g-4">
-      <div class="col-md-4 scroll-reveal">
-        <div class="cyber-card cyber-card-shine h-100 p-4 text-center" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#laporModal">
-          <div style="font-size:2.5rem;color:var(--cyber-red);margin-bottom:1rem;text-shadow:var(--cyber-glow-r);"><i class="bi bi-exclamation-octagon"></i></div>
-          <div class="card-title">Lapor Insiden</div>
-          <p class="card-text small mt-2">Laporkan insiden siber seperti website down, server error, konten ilegal, atau peretasan sistem.</p>
-        </div>
-      </div>
-      <div class="col-md-4 scroll-reveal">
-        <div class="cyber-card cyber-card-shine h-100 p-4 text-center" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#cekResiModal">
-          <div style="font-size:2.5rem;color:var(--cyber-cyan);margin-bottom:1rem;text-shadow:var(--cyber-glow-c);"><i class="bi bi-clipboard-pulse"></i></div>
-          <div class="card-title">Pantau Status</div>
-          <p class="card-text small mt-2">Masukkan kode resi untuk memantau status penanganan laporan Anda secara real-time.</p>
-        </div>
-      </div>
-      <div class="col-md-4 scroll-reveal">
-        <div class="cyber-card cyber-card-shine h-100 p-4 text-center" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#kontakModal">
-          <div style="font-size:2.5rem;color:var(--cyber-green);margin-bottom:1rem;text-shadow:var(--cyber-glow-g);"><i class="bi bi-headset"></i></div>
-          <div class="card-title">Kontak Tim</div>
-          <p class="card-text small mt-2">Hubungi langsung anggota Tim TTIS via WhatsApp untuk penanganan insiden darurat.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- Cara Melapor Section -->
-<section class="py-5" style="background:var(--cyber-bg);">
+<section class="py-4" style="background:var(--cyber-bg2);">
   <div class="container">
-    <div class="text-center mb-5 scroll-reveal">
+    <div class="text-center mb-4 scroll-reveal">
       <small style="color:var(--cyber-cyan);font-family:var(--font-mono);letter-spacing:3px;">// PANDUAN PELAPORAN</small>
-      <h2 style="font-family:var(--font-display);color:var(--cyber-text);margin-top:0.5rem;">Cara Melapor Insiden</h2>
-      <div class="cyber-divider mx-auto" style="margin-top:.75rem;"></div>
+      <h2 style="font-family:var(--font-display);color:var(--cyber-text);margin-top:0.5rem;font-size:1.5rem;">Cara Melapor Insiden</h2>
+      <div class="cyber-divider mx-auto" style="margin-top:.6rem;"></div>
     </div>
 
     <div class="row g-4 justify-content-center">
@@ -181,11 +150,75 @@
         <p style="color:var(--cyber-text-dim);font-size:.87rem;line-height:1.65;margin:0;">Simpan kode resi dan pantau status penanganan laporan Anda secara real-time.</p>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="text-center mt-5 scroll-reveal">
-      <button class="btn btn-cyber btn-cyber-pulse px-4" data-bs-toggle="modal" data-bs-target="#laporModal">
-        <i class="bi bi-exclamation-triangle me-2"></i>Lapor Sekarang
-      </button>
+<!-- Informasi Terkini -->
+<section class="home-updates py-4">
+  <div class="container">
+    <div class="updates-heading scroll-reveal">
+      <div>
+        <small>// PUSAT INFORMASI</small>
+        <h2>Berita dan Dokumen</h2>
+      </div>
+      <a href="<?= base_url('berita') ?>" class="updates-all-link">Lihat semua berita <i class="bi bi-arrow-up-right"></i></a>
+    </div>
+
+    <div class="row g-4 align-items-stretch">
+      <div class="col-lg-7 scroll-reveal">
+        <?php if(!empty($berita)): ?>
+        <div id="beritaCarousel" class="carousel slide news-carousel" data-bs-ride="carousel" data-bs-interval="6000">
+          <div class="carousel-inner">
+            <?php foreach($berita as $key => $item): ?>
+            <div class="carousel-item <?php echo ($key === 0) ? 'active' : ''; ?>">
+              <a class="news-slide" href="<?= base_url('welcome/detail/'.$item->slug) ?>" aria-label="Baca berita: <?= htmlspecialchars($item->judul) ?>">
+                <?php if(!empty($item->gambar)): ?>
+                <img src="<?= base_url('assets/uploads/berita/'.$item->gambar) ?>" alt="<?= htmlspecialchars($item->judul) ?>">
+                <?php else: ?>
+                <div class="news-slide-placeholder"><i class="bi bi-newspaper"></i></div>
+                <?php endif; ?>
+                <div class="news-overlay-copy">
+                  <div class="news-meta"><span><?= htmlspecialchars($item->kategori) ?></span><time><?= date('d.m.Y', strtotime($item->tanggal)) ?></time></div>
+                  <h3 class="news-overlay-title"><?= htmlspecialchars($item->judul) ?></h3>
+                  <p class="news-summary"><?= htmlspecialchars(character_limiter(strip_tags($item->ringkasan ?: $item->isi), 145)) ?></p>
+                </div>
+              </a>
+            </div>
+            <?php endforeach; ?>
+          </div>
+          <button class="carousel-control-prev news-carousel-control" type="button" data-bs-target="#beritaCarousel" data-bs-slide="prev" aria-label="Berita sebelumnya"><i class="bi bi-arrow-left"></i></button>
+          <button class="carousel-control-next news-carousel-control" type="button" data-bs-target="#beritaCarousel" data-bs-slide="next" aria-label="Berita berikutnya"><i class="bi bi-arrow-right"></i></button>
+          <?php if(count($berita) > 1): ?>
+          <div class="carousel-indicators news-carousel-indicators">
+            <?php foreach($berita as $key => $item): ?>
+            <button type="button" data-bs-target="#beritaCarousel" data-bs-slide-to="<?= $key ?>" class="<?php echo ($key === 0) ? 'active' : ''; ?>" aria-current="<?php echo ($key === 0) ? 'true' : 'false'; ?>" aria-label="Berita <?= $key + 1 ?>"></button>
+            <?php endforeach; ?>
+          </div>
+          <?php endif; ?>
+        </div>
+        <?php else: ?>
+        <div class="updates-empty"><i class="bi bi-newspaper"></i><span>Belum ada berita yang dipublikasikan.</span></div>
+        <?php endif; ?>
+      </div>
+
+      <aside class="col-lg-5 scroll-reveal">
+        <div class="document-panel h-100">
+          <div class="document-panel-header"><span><i class="bi bi-folder2-open"></i> Dokumen PDF</span><i class="bi bi-file-earmark-pdf"></i></div>
+          <?php if(!empty($dokumen)): ?>
+          <div class="document-list">
+            <?php foreach($dokumen as $item): ?>
+            <a class="document-item" href="<?= base_url('assets/uploads/kontak/'.$item->nama_file) ?>" target="_blank" rel="noopener noreferrer">
+              <span class="document-file-icon"><i class="bi bi-file-earmark-pdf"></i></span>
+              <span class="document-copy"><strong><?= htmlspecialchars($item->judul) ?></strong><small><?= date('d M Y', strtotime($item->tanggal_upload)) ?></small></span>
+              <i class="bi bi-download document-download"></i>
+            </a>
+            <?php endforeach; ?>
+          </div>
+          <?php else: ?>
+          <div class="updates-empty"><i class="bi bi-file-earmark-x"></i><span>Belum ada dokumen tersedia.</span></div>
+          <?php endif; ?>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

@@ -1,7 +1,36 @@
 <?php
-$pdf_path     = FCPATH . 'assets/files/rfc2350.pdf';
-$pdf_url      = base_url('assets/files/rfc2350.pdf');
-$pdf_exists   = file_exists($pdf_path);
+// Ambil dokumen RFC yang aktif dari data yang di-pass dari controller
+$pdf_url = '';
+$pdf_exists = false;
+
+// Debug file
+file_put_contents(FCPATH . 'rfc_debug_log.txt', "\n=== RFC2350 View Debug ===\n", FILE_APPEND);
+file_put_contents(FCPATH . 'rfc_debug_log.txt', 'isset($rfc): ' . (isset($rfc) ? 'YES' : 'NO') . "\n", FILE_APPEND);
+file_put_contents(FCPATH . 'rfc_debug_log.txt', 'empty($rfc): ' . (empty($rfc) ? 'YES' : 'NO') . "\n", FILE_APPEND);
+
+// Gunakan variable rfc yang di-pass dari controller
+if (!empty($rfc) && !empty($rfc->nama_file)) {
+    $pdf_url = base_url('assets/files/rfc2350/' . urlencode($rfc->nama_file));
+    $pdf_path = FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'rfc2350' . DIRECTORY_SEPARATOR . $rfc->nama_file;
+    $pdf_exists = file_exists($pdf_path);
+    file_put_contents(FCPATH . 'rfc_debug_log.txt', 'Using DB file: ' . $rfc->nama_file . "\n", FILE_APPEND);
+} else {
+    file_put_contents(FCPATH . 'rfc_debug_log.txt', 'Using fallback (DB file empty or not available)\n', FILE_APPEND);
+}
+
+// Fallback jika tidak ada file dari database atau $rfc kosong
+if ((!$pdf_exists || empty($pdf_url)) && file_exists(FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'rfc2350.pdf')) {
+    $pdf_url = base_url('assets/files/rfc2350.pdf');
+    $pdf_exists = true;
+    file_put_contents(FCPATH . 'rfc_debug_log.txt', 'Applied fallback to: rfc2350.pdf\n', FILE_APPEND);
+}
+
+// Sangat terakhir, kalau sama sekali tidak ada
+if (empty($pdf_url)) {
+    $pdf_exists = false;
+}
+
+file_put_contents(FCPATH . 'rfc_debug_log.txt', 'Final pdf_url: ' . $pdf_url . "\n", FILE_APPEND);
 ?>
 
 <!-- Page Header -->
@@ -19,11 +48,16 @@ $pdf_exists   = file_exists($pdf_path);
         <div class="d-flex align-items-center gap-2 mt-1">
           <i class="bi bi-file-earmark-lock2-fill" style="color:var(--cyber-cyan);font-size:1.1rem;text-shadow:var(--cyber-glow-c);"></i>
           <h1 style="font-family:var(--font-display);font-size:clamp(.9rem,2vw,1.1rem);color:var(--cyber-cyan);letter-spacing:2px;margin:0;text-shadow:var(--cyber-glow-c);">
-            RFC 2350 — MuaraEnimKab-CSIRT
+            <?= !empty($rfc) && !empty($rfc->judul) ? htmlspecialchars($rfc->judul) : 'RFC 2350 — MuaraEnimKab-CSIRT' ?>
           </h1>
         </div>
         <p style="font-family:var(--font-mono);font-size:.68rem;color:var(--cyber-text-dim);margin:.3rem 0 0;letter-spacing:1px;">
-          Deskripsi Tim Tanggap Insiden Siber Kabupaten Muara Enim &bull; Versi 1.1 &bull; 25 Januari 2023
+          <?php 
+          $desc = !empty($rfc) && !empty($rfc->deskripsi) ? htmlspecialchars($rfc->deskripsi) : 'Deskripsi Tim Tanggap Insiden Siber Kabupaten Muara Enim';
+          $versi = !empty($rfc) && !empty($rfc->versi) ? htmlspecialchars($rfc->versi) : '-';
+          $tgl = !empty($rfc) && !empty($rfc->tanggal_publikasi) ? date('d F Y', strtotime($rfc->tanggal_publikasi)) : '-';
+          echo $desc . ' &bull; Versi ' . $versi . ' &bull; ' . $tgl;
+          ?>
         </p>
       </div>
 
@@ -37,7 +71,7 @@ $pdf_exists   = file_exists($pdf_path);
           <i class="bi bi-fullscreen" id="fs-icon"></i>
           <span class="d-none d-md-inline ms-1">Layar Penuh</span>
         </button>
-        <a href="<?= $pdf_url ?>" download="RFC2350-MuaraEnimKab-CSIRT.pdf"
+        <a href="<?= $pdf_url ?>" download="<?= !empty($rfc) && !empty($rfc->nama_file) ? htmlspecialchars($rfc->nama_file) : 'RFC2350-MuaraEnimKab-CSIRT.pdf' ?>"
            class="btn btn-cyber btn-sm" style="border-color:rgba(0,255,136,.5);color:var(--cyber-green);">
           <i class="bi bi-download me-1"></i>
           <span class="d-none d-md-inline">Unduh PDF</span>
