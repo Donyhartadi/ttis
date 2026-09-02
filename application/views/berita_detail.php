@@ -27,6 +27,7 @@
     <span><i class="bi bi-calendar3 me-1"></i><?= date('d M Y', strtotime($berita->tanggal)) ?></span>
     <span><i class="bi bi-person me-1"></i><?= htmlspecialchars(ucwords($berita->penulis ?? 'Tim Persandian')) ?></span>
     <span><i class="bi bi-tag me-1"></i><?= htmlspecialchars($berita->kategori) ?></span>
+    <span><i class="bi bi-eye me-1"></i><?= number_format($berita->dilihat ?? 0) ?> views</span>
   </div>
 
   <!-- Gambar -->

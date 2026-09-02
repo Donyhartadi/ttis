@@ -48,8 +48,9 @@
             <h3 style="font-family:var(--font-display);font-size:0.8rem;color:var(--cyber-cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.5rem;line-clamp:2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
               <?= htmlspecialchars($b->judul) ?>
             </h3>
-            <p style="color:var(--cyber-text-dim);font-family:var(--font-mono);font-size:0.7rem;margin-bottom:0.75rem;">
-              <?= date('d/m/Y', strtotime($b->tanggal)) ?>
+            <p style="color:var(--cyber-text-dim);font-family:var(--font-mono);font-size:0.7rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem;">
+              <span><?= date('d/m/Y', strtotime($b->tanggal)) ?></span>
+              <span><i class="bi bi-eye me-1"></i><?= number_format($b->dilihat ?? 0) ?></span>
             </p>
             <p style="color:var(--cyber-text);font-size:0.9rem;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;line-height:1.5;">
               <?= htmlspecialchars(word_limiter($b->ringkasan ?: strip_tags($b->isi), 18)) ?>

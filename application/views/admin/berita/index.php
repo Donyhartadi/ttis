@@ -71,6 +71,9 @@
               <span style="color:var(--cyber-text-dim);font-size:0.78rem;font-family:var(--font-mono);">
                 <?= date('d M Y', strtotime($b->tanggal)) ?>
               </span>
+              <span style="color:var(--cyber-text-dim);font-size:0.78rem;font-family:var(--font-mono);" title="Jumlah views">
+                <i class="bi bi-eye me-1"></i><?= number_format($b->dilihat ?? 0) ?>
+              </span>
             </div>
             <h6 style="color:var(--cyber-text);font-weight:600;margin-bottom:0.5rem;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
               <?= htmlspecialchars($b->judul) ?>

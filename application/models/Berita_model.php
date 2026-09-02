@@ -45,6 +45,10 @@ class Berita_model extends CI_Model {
   public function get_by_slug($slug) {
     return $this->db->get_where('berita', ['slug' => $slug])->row();
   }
+
+  public function increment_views($id) {
+    return $this->db->set('dilihat', 'dilihat + 1', FALSE)->where('id', $id)->update($this->table);
+  }
   
   public function getJumlahBeritaPerBulan()
   {

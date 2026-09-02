@@ -178,7 +178,7 @@
                 <div class="news-slide-placeholder"><i class="bi bi-newspaper"></i></div>
                 <?php endif; ?>
                 <div class="news-overlay-copy">
-                  <div class="news-meta"><span><?= htmlspecialchars($item->kategori) ?></span><time><?= date('d.m.Y', strtotime($item->tanggal)) ?></time></div>
+                  <div class="news-meta"><span><?= htmlspecialchars($item->kategori) ?></span><time><?= date('d.m.Y', strtotime($item->tanggal)) ?></time><span><i class="bi bi-eye me-1"></i><?= number_format($item->dilihat ?? 0) ?></span></div>
                   <h3 class="news-overlay-title"><?= htmlspecialchars($item->judul) ?></h3>
                   <p class="news-summary"><?= htmlspecialchars(character_limiter(strip_tags($item->ringkasan ?: $item->isi), 145)) ?></p>
                 </div>

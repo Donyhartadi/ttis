@@ -73,7 +73,10 @@ class Welcome extends CI_Controller {
 		$this->load->model('Berita_model');
 		$berita = $this->Berita_model->get_by_slug($slug);
 		if (!$berita) show_404();
-	  
+
+		$this->Berita_model->increment_views($berita->id);
+		$berita->dilihat += 1;
+
 		$data['berita'] = $berita;
 		$this->load->view('templates/public/header');
 		$this->load->view('templates/public/top');
