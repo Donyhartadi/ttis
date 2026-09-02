@@ -207,7 +207,7 @@
           <?php if(!empty($dokumen)): ?>
           <div class="document-list">
             <?php foreach($dokumen as $item): ?>
-            <a class="document-item" href="<?= base_url('assets/uploads/kontak/'.$item->nama_file) ?>" target="_blank" rel="noopener noreferrer">
+            <a class="document-item" href="<?= base_url('assets/uploads/kontak/dokumen/'.$item->nama_file) ?>" target="_blank" rel="noopener noreferrer">
               <span class="document-file-icon"><i class="bi bi-file-earmark-pdf"></i></span>
               <span class="document-copy"><strong><?= htmlspecialchars($item->judul) ?></strong><small><?= date('d M Y', strtotime($item->tanggal_upload)) ?></small></span>
               <i class="bi bi-download document-download"></i>
